@@ -9,6 +9,7 @@ import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -17,22 +18,25 @@ import javax.swing.border.Border;
 public class Mastermind extends JFrame implements ActionListener{
 	
 	private JPanel contentPane;
-	private int contadorUno = 0, contadorDos = 0, contadorTres = 0, contadorCuatro = 0;
+	private int contador = 0;
 	
 	// Vector de colores
-	Color[] coloresDisponibles =  { Color.RED, Color.GREEN, Color.BLUE, Color.BLACK, Color.PINK, Color.ORANGE, Color.MAGENTA, Color.YELLOW, Color.CYAN, Color.GRAY };
-	ArrayList<Color> colores2 = new ArrayList<Color>();
-	ArrayList<Color> colores = new ArrayList<Color>();
-	Color[] bola_solucion = new Color[4];
-	int rand;
+	private Color[] coloresArray =  {Color.RED, Color.GREEN,Color.BLUE, Color.BLACK};
+	private Color[] coloresDisponibles =  { Color.RED, Color.GREEN, Color.BLUE, Color.BLACK, Color.PINK, Color.ORANGE, Color.MAGENTA, Color.YELLOW, Color.CYAN, Color.GRAY };
+	private ArrayList<Color> colores = new ArrayList<Color>();
+	private JLabel bolacoloresUno, bolacoloresDos, bolacoloresTres, bolacoloresCuatro;
+	private JLabel bolaresulUno, bolaresulDos, bolaresulTres, bolaresulCuatro;
+	private Color[] solucionUsuario = new Color[4];
+	private Color[] bola_solucion = new Color[4];
+	private int rand;
 	
 	public Mastermind(JPanel contentPane) {
 		this.contentPane = contentPane;
 	}
 	
 	// crear_colores. Asignamos colores aleatorios al array de 4 posiciones.
-	public void crearColores(int y) {
-		JLabel bolacoloresUno, bolacoloresDos, bolacoloresTres, bolacoloresCuatro;
+	public void crearColores(int y) {		
+		
         Border border = BorderFactory.createLineBorder(Color.BLACK, 3);
 		
 		bolacoloresUno = new JLabel("");
@@ -70,56 +74,55 @@ public class Mastermind extends JFrame implements ActionListener{
 		bolacoloresUno.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-            	if(contadorUno == coloresDisponibles.length - 1) {
-            		bolacoloresUno.setBackground(coloresDisponibles[contadorUno]);
-        			contadorUno = 0;
-            	} else {
-            		bolacoloresUno.setBackground(coloresDisponibles[contadorUno]);
-            		contadorUno++;
-            	}
+            	cambiarColor(bolacoloresUno);
             }
         });
 		
 		bolacoloresDos.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-            	if(contadorDos == coloresDisponibles.length - 1) {
-            		bolacoloresDos.setBackground(coloresDisponibles[contadorDos]);
-            		contadorDos = 0;
-            	} else {
-            		bolacoloresDos.setBackground(coloresDisponibles[contadorDos]);
-            		contadorDos++;
-            	}
+            	cambiarColor(bolacoloresDos);
             }
         });
 		
 		bolacoloresTres.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-            	if(contadorTres == coloresDisponibles.length - 1) {
-            		bolacoloresTres.setBackground(coloresDisponibles[contadorTres]);
-            		contadorTres = 0;
-            	} else {
-            		bolacoloresTres.setBackground(coloresDisponibles[contadorTres]);
-            		contadorTres++;
-            	}
+            	cambiarColor(bolacoloresTres);
             }
         });
 		
 		bolacoloresCuatro.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-            	if(contadorCuatro == coloresDisponibles.length - 1) {
-            		bolacoloresCuatro.setBackground(coloresDisponibles[contadorCuatro]);
-            		contadorCuatro = 0;
-            	} else {
-            		bolacoloresCuatro.setBackground(coloresDisponibles[contadorCuatro]);
-            		contadorCuatro++;
-            	}
+            	cambiarColor(bolacoloresCuatro);
             }
         });
 	}
 	
+	public void cambiarColor(JLabel bolaColores) {
+		if(contador == coloresArray.length - 1) {
+			bolaColores.setBackground(coloresArray[contador]);
+    		contador = 0;
+    	} else {
+    		bolaColores.setBackground(coloresArray[contador]);
+    		contador++;
+    	}
+	}
+	
+	public void comprobarSolucionUsuario() {
+		solucionUsuario[0] = bolacoloresUno.getBackground();
+		solucionUsuario[1] = bolacoloresDos.getBackground();
+		solucionUsuario[2] = bolacoloresTres.getBackground();
+		solucionUsuario[3] = bolacoloresCuatro.getBackground();
+		
+		for (int i = 0; i < bola_solucion.length; i++) {
+			if(solucionUsuario[i] == bola_solucion[i]) {
+				
+			}
+		}
+	}
+
 	public void crearSolucion() {
 		for(int i = 0; i < bola_solucion.length; i++) {
 			rand = (int)(Math.random() * (10 - 0)+0);
@@ -155,14 +158,10 @@ public class Mastermind extends JFrame implements ActionListener{
 		bolasolucionCuatro.setOpaque(true);
 		bolasolucionCuatro.setBounds(419, 50, 30, 30);
 		contentPane.add(bolasolucionCuatro);
-		
-		
 	}
-
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		//bolacoloresUno.setBackground(Color.GREEN);
-		
 	}
 	
 	/* crear_solución. Obtener aleatoriamente colores para la solución. Estos colores los guardamos

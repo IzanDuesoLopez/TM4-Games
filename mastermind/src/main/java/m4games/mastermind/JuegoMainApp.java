@@ -15,8 +15,8 @@ import java.awt.event.ActionEvent;
 public class JuegoMainApp extends JFrame implements ActionListener{
 
 	private JPanel contentPane;
-	private Mastermind mastermind;
 	private int y = 11;
+	private Mastermind mastermind;
 	private JButton botonComprobar;
 
 	/**
@@ -47,10 +47,10 @@ public class JuegoMainApp extends JFrame implements ActionListener{
 		contentPane.setLayout(null);
 		
 		mastermind = new Mastermind(contentPane);
-		mastermind.crearColores();
+		mastermind.crearColores(y);
 		
 		botonComprobar = new JButton("Comprobar");
-		botonComprobar.setBounds(180, 11, 100, 23);
+		botonComprobar.setBounds(180, y, 100, 23);
 		contentPane.add(botonComprobar);
 		botonComprobar.addActionListener(this);
 	}
@@ -58,10 +58,10 @@ public class JuegoMainApp extends JFrame implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		botonComprobar.setBounds(180, y+=40, 100, 23);
-		mastermind.crearColores();
+		mastermind.crearColores(y);
 		contentPane.revalidate();
 		contentPane.repaint();
-		mastermind.comprobarSolucionUsuario();
+		mastermind.comprobarSolucionUsuario(y);
 		contentPane.revalidate();
 		contentPane.repaint();
 	}

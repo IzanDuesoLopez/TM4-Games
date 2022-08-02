@@ -41,6 +41,8 @@ public class JuegoMainApp extends JFrame {
 		contentPane.setLayout(null);
 		
 		Mastermind mastermind = new Mastermind(contentPane);
-		mastermind.crear_colores();
+		mastermind.crear_colores(11);
+		mastermind.crear_colores(61);
+		mastermind.crear_colores(121);
 	}
 }

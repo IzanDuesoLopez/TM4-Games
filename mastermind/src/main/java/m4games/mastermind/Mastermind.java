@@ -29,7 +29,7 @@ public class Mastermind extends JFrame implements ActionListener{
 	}
 	
 	// crear_colores. Asignamos colores aleatorios al array de 4 posiciones.
-	public void crear_colores() {
+	public void crear_colores(int y) {
 		JLabel bolacoloresUno, bolacoloresDos, bolacoloresTres, bolacoloresCuatro;
         Border border = BorderFactory.createLineBorder(Color.BLACK, 3);
 		
@@ -38,7 +38,7 @@ public class Mastermind extends JFrame implements ActionListener{
 		bolacoloresUno.setBackground(Color.WHITE);
 		bolacoloresUno.setBorder(border);
 		bolacoloresUno.setOpaque(true);
-		bolacoloresUno.setBounds(10, 11, 30, 30);
+		bolacoloresUno.setBounds(10, y, 30, 30);
 		contentPane.add(bolacoloresUno);
 		
 		bolacoloresDos = new JLabel("");
@@ -46,7 +46,7 @@ public class Mastermind extends JFrame implements ActionListener{
 		bolacoloresDos.setBackground(Color.WHITE);
 		bolacoloresDos.setBorder(border);
 		bolacoloresDos.setOpaque(true);
-		bolacoloresDos.setBounds(50, 11, 30, 30);
+		bolacoloresDos.setBounds(50, y, 30, 30);
 		contentPane.add(bolacoloresDos);
 		
 		bolacoloresTres = new JLabel("");
@@ -54,7 +54,7 @@ public class Mastermind extends JFrame implements ActionListener{
 		bolacoloresTres.setBackground(Color.WHITE);
 		bolacoloresTres.setBorder(border);
 		bolacoloresTres.setOpaque(true);
-		bolacoloresTres.setBounds(90, 11, 30, 30);
+		bolacoloresTres.setBounds(90, y, 30, 30);
 		contentPane.add(bolacoloresTres);
 		
 		bolacoloresCuatro = new JLabel("");
@@ -62,7 +62,7 @@ public class Mastermind extends JFrame implements ActionListener{
 		bolacoloresCuatro.setBackground(Color.WHITE);
 		bolacoloresCuatro.setBorder(border);
 		bolacoloresCuatro.setOpaque(true);
-		bolacoloresCuatro.setBounds(130, 11, 30, 30);
+		bolacoloresCuatro.setBounds(130, y, 30, 30);
 		contentPane.add(bolacoloresCuatro);
 		
 		bolacoloresUno.addMouseListener(new MouseAdapter() {

@@ -7,10 +7,16 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+
 import java.awt.Color;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class JuegoMainApp extends JFrame implements ActionListener{
 
@@ -46,6 +52,29 @@ public class JuegoMainApp extends JFrame implements ActionListener{
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
+		JMenuBar barra_menu = new JMenuBar();
+		JMenu archivo = new JMenu("Archivo");
+		JMenu ayuda = new JMenu("Ayuda");
+		JMenuItem nuevo_juego = new JMenuItem("Nuevo juego");
+		JMenuItem salir = new JMenuItem("Salir");
+		JMenuItem como_jugar = new JMenuItem("Cómo jugar");
+		JMenuItem acerca_de = new JMenuItem("Acerca de");
+		
+		nuevo_juego.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				y = 11;
+				mastermind = new Mastermind(contentPane);
+				mastermind.crearColores(y);
+				
+				botonComprobar = new JButton("Comprobar");
+				botonComprobar.setBounds(180, y, 100, 23);
+				contentPane.add(botonComprobar);
+				//botonComprobar.addActionListener(this);
+			}
+		});
+		crearBarraMenu(barra_menu, archivo, ayuda, nuevo_juego, salir, como_jugar, acerca_de);
+		
 		mastermind = new Mastermind(contentPane);
 		mastermind.crearColores(y);
 		
@@ -66,5 +95,13 @@ public class JuegoMainApp extends JFrame implements ActionListener{
 		contentPane.repaint();
 	}
 
-
+	public void crearBarraMenu(JMenuBar barra_menu, JMenu archivo, JMenu ayuda, JMenuItem nuevo_juego, JMenuItem salir, JMenuItem como_jugar, JMenuItem acerca_de) {		
+		barra_menu.add(archivo);
+		barra_menu.add(ayuda);
+		archivo.add(nuevo_juego);
+		archivo.add(salir);
+		ayuda.add(como_jugar);
+		ayuda.add(acerca_de);
+		setJMenuBar(barra_menu);
+	}	
 }

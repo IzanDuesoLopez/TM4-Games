@@ -20,16 +20,18 @@ public class Mastermind extends JFrame implements ActionListener{
 	private int contadorUno = 0, contadorDos = 0, contadorTres = 0, contadorCuatro = 0;
 	
 	// Vector de colores
-	Color[] coloresArray =  { Color.RED, Color.GREEN,Color.BLUE, Color.BLUE, Color.BLACK, Color.BLACK };
-	ArrayList<Color> coloresDisponibles = new ArrayList<Color>();
+	Color[] coloresDisponibles =  { Color.RED, Color.GREEN, Color.BLUE, Color.BLACK, Color.PINK, Color.ORANGE, Color.MAGENTA, Color.YELLOW, Color.CYAN, Color.GRAY };
+	ArrayList<Color> colores2 = new ArrayList<Color>();
 	ArrayList<Color> colores = new ArrayList<Color>();
+	Color[] bola_solucion = new Color[4];
+	int rand;
 	
 	public Mastermind(JPanel contentPane) {
 		this.contentPane = contentPane;
 	}
 	
 	// crear_colores. Asignamos colores aleatorios al array de 4 posiciones.
-	public void crear_colores(int y) {
+	public void crearColores(int y) {
 		JLabel bolacoloresUno, bolacoloresDos, bolacoloresTres, bolacoloresCuatro;
         Border border = BorderFactory.createLineBorder(Color.BLACK, 3);
 		
@@ -68,11 +70,11 @@ public class Mastermind extends JFrame implements ActionListener{
 		bolacoloresUno.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-            	if(contadorUno == coloresArray.length - 1) {
-            		bolacoloresUno.setBackground(coloresArray[contadorUno]);
+            	if(contadorUno == coloresDisponibles.length - 1) {
+            		bolacoloresUno.setBackground(coloresDisponibles[contadorUno]);
         			contadorUno = 0;
             	} else {
-            		bolacoloresUno.setBackground(coloresArray[contadorUno]);
+            		bolacoloresUno.setBackground(coloresDisponibles[contadorUno]);
             		contadorUno++;
             	}
             }
@@ -81,11 +83,11 @@ public class Mastermind extends JFrame implements ActionListener{
 		bolacoloresDos.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-            	if(contadorDos == coloresArray.length - 1) {
-            		bolacoloresDos.setBackground(coloresArray[contadorDos]);
+            	if(contadorDos == coloresDisponibles.length - 1) {
+            		bolacoloresDos.setBackground(coloresDisponibles[contadorDos]);
             		contadorDos = 0;
             	} else {
-            		bolacoloresDos.setBackground(coloresArray[contadorDos]);
+            		bolacoloresDos.setBackground(coloresDisponibles[contadorDos]);
             		contadorDos++;
             	}
             }
@@ -94,11 +96,11 @@ public class Mastermind extends JFrame implements ActionListener{
 		bolacoloresTres.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-            	if(contadorTres == coloresArray.length - 1) {
-            		bolacoloresTres.setBackground(coloresArray[contadorTres]);
+            	if(contadorTres == coloresDisponibles.length - 1) {
+            		bolacoloresTres.setBackground(coloresDisponibles[contadorTres]);
             		contadorTres = 0;
             	} else {
-            		bolacoloresTres.setBackground(coloresArray[contadorTres]);
+            		bolacoloresTres.setBackground(coloresDisponibles[contadorTres]);
             		contadorTres++;
             	}
             }
@@ -107,15 +109,54 @@ public class Mastermind extends JFrame implements ActionListener{
 		bolacoloresCuatro.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-            	if(contadorCuatro == coloresArray.length - 1) {
-            		bolacoloresCuatro.setBackground(coloresArray[contadorCuatro]);
+            	if(contadorCuatro == coloresDisponibles.length - 1) {
+            		bolacoloresCuatro.setBackground(coloresDisponibles[contadorCuatro]);
             		contadorCuatro = 0;
             	} else {
-            		bolacoloresCuatro.setBackground(coloresArray[contadorCuatro]);
+            		bolacoloresCuatro.setBackground(coloresDisponibles[contadorCuatro]);
             		contadorCuatro++;
             	}
             }
         });
+	}
+	
+	public void crearSolucion() {
+		for(int i = 0; i < bola_solucion.length; i++) {
+			rand = (int)(Math.random() * (10 - 0)+0);
+			bola_solucion[i] = coloresDisponibles[rand];
+		}
+		JLabel bolasolucionUno, bolasolucionDos, bolasolucionTres, bolasolucionCuatro;
+        Border border = BorderFactory.createLineBorder(Color.BLACK, 3);
+        
+		bolasolucionUno = new JLabel("");
+		bolasolucionUno.setBackground(bola_solucion[0]);
+		bolasolucionUno.setBorder(border);
+		bolasolucionUno.setOpaque(true);
+		bolasolucionUno.setBounds(320, 50, 30, 30);
+		contentPane.add(bolasolucionUno);
+		
+		bolasolucionDos = new JLabel("");
+		bolasolucionDos.setBackground(bola_solucion[1]);
+		bolasolucionDos.setBorder(border);
+		bolasolucionDos.setOpaque(true);
+		bolasolucionDos.setBounds(353, 50, 30, 30);
+		contentPane.add(bolasolucionDos);
+		
+		bolasolucionTres = new JLabel("");
+		bolasolucionTres.setBackground(bola_solucion[2]);
+		bolasolucionTres.setBorder(border);
+		bolasolucionTres.setOpaque(true);
+		bolasolucionTres.setBounds(386, 50, 30, 30);
+		contentPane.add(bolasolucionTres);
+		
+		bolasolucionCuatro = new JLabel("");
+		bolasolucionCuatro.setBackground(bola_solucion[3]);
+		bolasolucionCuatro.setBorder(border);
+		bolasolucionCuatro.setOpaque(true);
+		bolasolucionCuatro.setBounds(419, 50, 30, 30);
+		contentPane.add(bolasolucionCuatro);
+		
+		
 	}
 
 	@Override

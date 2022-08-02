@@ -13,7 +13,7 @@ public class Mastermind extends JFrame{
 	
 	// Vector de colores
 	//Color[] colores =  { Color.RED, Color.RED, Color.GREEN, Color.GREEN ,Color.BLUE, Color.BLUE, Color.BLACK, Color.BLACK };
-	Color[] coloresDisponibles = new Color[4];
+	ArrayList<Color> coloresDisponibles = new ArrayList<Color>();
 	ArrayList<Color> colores = new ArrayList<Color>();
 	
 	// crear_colores. Asignamos colores aleatorios al array de 4 posiciones.
@@ -26,6 +26,5 @@ public class Mastermind extends JFrame{
 	// borrar_componentes. Nos permite borrar todos los componentes creados durante el juego cuando pulsamos nuevo Juego.
 	
 	// Método ayuda. Nos explica como jugar, acerca de (con información de los alumnos)
-	
 	
 }

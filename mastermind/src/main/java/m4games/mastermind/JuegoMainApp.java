@@ -8,10 +8,16 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import java.awt.Color;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
-public class JuegoMainApp extends JFrame {
+public class JuegoMainApp extends JFrame implements ActionListener{
 
 	private JPanel contentPane;
+	private int y = 11;
+	private Mastermind mastermind;
+	private JButton botonComprobar;
 
 	/**
 	 * Launch the application.
@@ -40,9 +46,22 @@ public class JuegoMainApp extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		Mastermind mastermind = new Mastermind(contentPane);
-		mastermind.crear_colores(11);
-		mastermind.crear_colores(61);
-		mastermind.crear_colores(121);
+		mastermind = new Mastermind(contentPane);
+		mastermind.crearColores(y);
+		
+		botonComprobar = new JButton("Comprobar");
+		botonComprobar.setBounds(180, y, 100, 23);
+		contentPane.add(botonComprobar);
+		botonComprobar.addActionListener(this);
 	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		botonComprobar.setBounds(180, y+=40, 100, 23);
+		mastermind.crearColores(y);
+		contentPane.revalidate();
+		contentPane.repaint();
+	}
+
+
 }

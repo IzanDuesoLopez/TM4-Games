@@ -40,7 +40,7 @@ public class JuegoMainApp extends JFrame implements ActionListener{
 	 */
 	public JuegoMainApp() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 864, 521);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -59,6 +59,9 @@ public class JuegoMainApp extends JFrame implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		botonComprobar.setBounds(180, y+=40, 100, 23);
 		mastermind.crearColores(y);
+		contentPane.revalidate();
+		contentPane.repaint();
+		mastermind.comprobarSolucionUsuario(y);
 		contentPane.revalidate();
 		contentPane.repaint();
 	}

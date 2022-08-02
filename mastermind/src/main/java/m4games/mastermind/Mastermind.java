@@ -12,6 +12,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 
@@ -21,14 +22,15 @@ public class Mastermind extends JFrame implements ActionListener{
 	private int contador = 0;
 	
 	// Vector de colores
-	private Color[] coloresArray =  {Color.RED, Color.GREEN,Color.BLUE, Color.BLACK};
-	private Color[] coloresDisponibles =  { Color.RED, Color.GREEN, Color.BLUE, Color.BLACK, Color.PINK, Color.ORANGE, Color.MAGENTA, Color.YELLOW, Color.CYAN, Color.GRAY };
+	private Color[] coloresArray =  {Color.RED, Color.GREEN, Color.BLUE, Color.BLACK, Color.PINK, Color.ORANGE};
+	private Color[] coloresDisponibles =  { Color.RED, Color.GREEN, Color.BLUE, Color.BLACK, Color.PINK, Color.ORANGE};
 	private ArrayList<Color> colores = new ArrayList<Color>();
 	private JLabel bolacoloresUno, bolacoloresDos, bolacoloresTres, bolacoloresCuatro;
 	private JLabel bolaresulUno, bolaresulDos, bolaresulTres, bolaresulCuatro;
 	private Color[] solucionUsuario = new Color[4];
-	private Color[] bola_solucion = new Color[4];
+	private Color[] bola_solucion = {Color.RED, Color.GREEN, Color.BLACK, Color.BLACK};
 	private int rand;
+	private Border border = BorderFactory.createLineBorder(Color.BLACK, 3);
 	
 	public Mastermind(JPanel contentPane) {
 		this.contentPane = contentPane;
@@ -36,8 +38,7 @@ public class Mastermind extends JFrame implements ActionListener{
 	
 	// crear_colores. Asignamos colores aleatorios al array de 4 posiciones.
 	public void crearColores(int y) {		
-		
-        Border border = BorderFactory.createLineBorder(Color.BLACK, 3);
+		crearSolucion();
 		
 		bolacoloresUno = new JLabel("");
 		bolacoloresUno.setForeground(Color.WHITE);
@@ -75,6 +76,7 @@ public class Mastermind extends JFrame implements ActionListener{
             @Override
             public void mouseClicked(MouseEvent e) {
             	cambiarColor(bolacoloresUno);
+            	solucionUsuario[0] = bolacoloresUno.getBackground();
             }
         });
 		
@@ -82,6 +84,7 @@ public class Mastermind extends JFrame implements ActionListener{
             @Override
             public void mouseClicked(MouseEvent e) {
             	cambiarColor(bolacoloresDos);
+        		solucionUsuario[1] = bolacoloresDos.getBackground();
             }
         });
 		
@@ -89,6 +92,7 @@ public class Mastermind extends JFrame implements ActionListener{
             @Override
             public void mouseClicked(MouseEvent e) {
             	cambiarColor(bolacoloresTres);
+        		solucionUsuario[2] = bolacoloresTres.getBackground();
             }
         });
 		
@@ -96,6 +100,7 @@ public class Mastermind extends JFrame implements ActionListener{
             @Override
             public void mouseClicked(MouseEvent e) {
             	cambiarColor(bolacoloresCuatro);
+            	solucionUsuario[3] = bolacoloresCuatro.getBackground();
             }
         });
 	}
@@ -110,53 +115,74 @@ public class Mastermind extends JFrame implements ActionListener{
     	}
 	}
 	
-	public void comprobarSolucionUsuario() {
-		solucionUsuario[0] = bolacoloresUno.getBackground();
-		solucionUsuario[1] = bolacoloresDos.getBackground();
-		solucionUsuario[2] = bolacoloresTres.getBackground();
-		solucionUsuario[3] = bolacoloresCuatro.getBackground();
+	public void comprobarSolucionUsuario(int y) {		
+		int x = 270;
 		
-		for (int i = 0; i < bola_solucion.length; i++) {
-			if(solucionUsuario[i] == bola_solucion[i]) {
-				
+		try {
+			for (int i = 0; i < solucionUsuario.length; i++) {
+				System.out.println("Color user: " + solucionUsuario[i] + " " + "Color solucion: " + bola_solucion[i]);
+				if(solucionUsuario[i].getRGB() == bola_solucion[i].getRGB()) {
+					JLabel bolaTemp = new JLabel("");
+					bolaTemp.setForeground(Color.BLACK);
+					bolaTemp.setBackground(Color.BLACK);
+					bolaTemp.setBorder(border);
+					bolaTemp.setOpaque(true);
+					bolaTemp.setBounds(x += 40, y-40, 30, 30);
+					contentPane.add(bolaTemp);
+				} else {
+					for (int j = 0; j < bola_solucion.length; j++) {
+						if(solucionUsuario[i].getRGB() == bola_solucion[j].getRGB()) {
+							JLabel bolaTemp = new JLabel("");
+							bolaTemp.setForeground(Color.WHITE);
+							bolaTemp.setBackground(Color.WHITE);
+							bolaTemp.setBorder(border);
+							bolaTemp.setOpaque(true);
+							bolaTemp.setBounds(x += 40, y-40, 30, 30);
+							contentPane.add(bolaTemp);
+							break;
+						}
+					}
+				}
 			}
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Faltan fichas!");
 		}
+		
 	}
 
 	public void crearSolucion() {
-		for(int i = 0; i < bola_solucion.length; i++) {
-			rand = (int)(Math.random() * (10 - 0)+0);
-			bola_solucion[i] = coloresDisponibles[rand];
-		}
+//		for(int i = 0; i < bola_solucion.length; i++) {
+//			rand = (int)(Math.random() * (6 - 0)+0);
+//			bola_solucion[i] = coloresDisponibles[rand];
+//		}
 		JLabel bolasolucionUno, bolasolucionDos, bolasolucionTres, bolasolucionCuatro;
-        Border border = BorderFactory.createLineBorder(Color.BLACK, 3);
         
 		bolasolucionUno = new JLabel("");
 		bolasolucionUno.setBackground(bola_solucion[0]);
 		bolasolucionUno.setBorder(border);
 		bolasolucionUno.setOpaque(true);
-		bolasolucionUno.setBounds(320, 50, 30, 30);
+		bolasolucionUno.setBounds(600, 50, 30, 30);
 		contentPane.add(bolasolucionUno);
 		
 		bolasolucionDos = new JLabel("");
 		bolasolucionDos.setBackground(bola_solucion[1]);
 		bolasolucionDos.setBorder(border);
 		bolasolucionDos.setOpaque(true);
-		bolasolucionDos.setBounds(353, 50, 30, 30);
+		bolasolucionDos.setBounds(640, 50, 30, 30);
 		contentPane.add(bolasolucionDos);
 		
 		bolasolucionTres = new JLabel("");
 		bolasolucionTres.setBackground(bola_solucion[2]);
 		bolasolucionTres.setBorder(border);
 		bolasolucionTres.setOpaque(true);
-		bolasolucionTres.setBounds(386, 50, 30, 30);
+		bolasolucionTres.setBounds(680, 50, 30, 30);
 		contentPane.add(bolasolucionTres);
 		
 		bolasolucionCuatro = new JLabel("");
 		bolasolucionCuatro.setBackground(bola_solucion[3]);
 		bolasolucionCuatro.setBorder(border);
 		bolasolucionCuatro.setOpaque(true);
-		bolasolucionCuatro.setBounds(419, 50, 30, 30);
+		bolasolucionCuatro.setBounds(720, 50, 30, 30);
 		contentPane.add(bolasolucionCuatro);
 	}
 	

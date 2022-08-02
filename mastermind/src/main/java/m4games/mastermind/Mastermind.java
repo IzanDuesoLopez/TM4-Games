@@ -131,7 +131,7 @@ public class Mastermind extends JFrame implements ActionListener{
 					contentPane.add(bolaTemp);
 				} else {
 					for (int j = 0; j < bola_solucion.length; j++) {
-						if(solucionUsuario[i].getRGB() == bola_solucion[j].getRGB()) {
+						if(solucionUsuario[i].getRGB() == bola_solucion[j].getRGB() && solucionUsuario[j].getRGB() != bola_solucion[j].getRGB()) {
 							JLabel bolaTemp = new JLabel("");
 							bolaTemp.setForeground(Color.WHITE);
 							bolaTemp.setBackground(Color.WHITE);

@@ -58,6 +58,7 @@ public class Mastermind extends JFrame implements ActionListener{
 		contentPane.setLayout(null);
 		
 		crearBarraMenu(barra_menu, archivo, ayuda, nuevo_juego, salir, como_jugar, acerca_de);
+		
 		nuevo_juego.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				EventQueue.invokeLater(new Runnable() {
@@ -71,11 +72,35 @@ public class Mastermind extends JFrame implements ActionListener{
 				});
 			}
 		});
+		
 		salir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
 			}
 		});
+		
+		como_jugar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				EventQueue.invokeLater(new Runnable() {
+					public void run() {
+						try {
+							Reglas reglas = new Reglas();
+							reglas.setVisible(true);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+				});
+			}
+		});
+		
+		acerca_de.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("Fet per l'equip 3");
+			}
+		});
+		
+		
 		
 		crearColores(y);
 		

@@ -1,6 +1,9 @@
 package m4games.mastermind;
 
 import java.awt.EventQueue;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.WindowEvent;
 
 public class JuegoMainApp {
 

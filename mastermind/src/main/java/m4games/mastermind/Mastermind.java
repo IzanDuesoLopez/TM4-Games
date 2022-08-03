@@ -1,6 +1,7 @@
 package m4games.mastermind;
 
 import java.awt.Color;
+import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -26,6 +27,15 @@ public class Mastermind extends JFrame implements ActionListener{
 	private int y = 11;
 	private JButton botonComprobar;
 	
+	// Componentes de la barra del menú
+	private JMenuBar barra_menu = new JMenuBar();
+	private JMenu archivo = new JMenu("Archivo");
+	private JMenu ayuda = new JMenu("Ayuda");
+	private JMenuItem nuevo_juego = new JMenuItem("Nuevo juego");
+	public JMenuItem salir = new JMenuItem("Salir");
+	private JMenuItem como_jugar = new JMenuItem("Cómo jugar");
+	private JMenuItem acerca_de = new JMenuItem("Acerca de");
+	
 	// Vector de colores
 	private Color[] coloresArray =  {Color.RED, Color.GREEN, Color.BLUE, Color.BLACK, Color.PINK, Color.ORANGE};
 	private Color[] coloresDisponibles =  { Color.RED, Color.GREEN, Color.BLUE, Color.BLACK, Color.PINK, Color.ORANGE};
@@ -45,15 +55,25 @@ public class Mastermind extends JFrame implements ActionListener{
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JMenuBar barra_menu = new JMenuBar();
-		JMenu archivo = new JMenu("Archivo");
-		JMenu ayuda = new JMenu("Ayuda");
-		JMenuItem nuevo_juego = new JMenuItem("Nuevo juego");
-		JMenuItem salir = new JMenuItem("Salir");
-		JMenuItem como_jugar = new JMenuItem("Cómo jugar");
-		JMenuItem acerca_de = new JMenuItem("Acerca de");
-		
 		crearBarraMenu(barra_menu, archivo, ayuda, nuevo_juego, salir, como_jugar, acerca_de);
+		nuevo_juego.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				EventQueue.invokeLater(new Runnable() {
+					public void run() {
+						try {
+							nivel.setVisible(true);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+				});
+			}
+		});
+		salir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+			}
+		});
 		
 		crearColores(y);
 		
@@ -62,7 +82,7 @@ public class Mastermind extends JFrame implements ActionListener{
 		contentPane.add(botonComprobar);
 		botonComprobar.addActionListener(this);
 	}
-	
+
 	public void crearBarraMenu(JMenuBar barra_menu, JMenu archivo, JMenu ayuda, JMenuItem nuevo_juego, JMenuItem salir, JMenuItem como_jugar, JMenuItem acerca_de) {		
 		barra_menu.add(archivo);
 		barra_menu.add(ayuda);

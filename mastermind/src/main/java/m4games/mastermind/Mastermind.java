@@ -5,21 +5,26 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
+import javax.swing.border.EmptyBorder;
 
 public class Mastermind extends JFrame implements ActionListener{
 	
 	private JPanel contentPane;
 	private int contador = 0;
+	private int y = 11;
+	private JButton botonComprobar;
 	
 	// Vector de colores
 	private Color[] coloresArray =  {Color.RED, Color.GREEN, Color.BLUE, Color.BLACK, Color.PINK, Color.ORANGE};
@@ -32,9 +37,41 @@ public class Mastermind extends JFrame implements ActionListener{
 	private int rand;
 	private Border border = BorderFactory.createLineBorder(Color.BLACK, 3);
 	
-	public Mastermind(JPanel contentPane) {
-		this.contentPane = contentPane;
+	public Mastermind() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 864, 521);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JMenuBar barra_menu = new JMenuBar();
+		JMenu archivo = new JMenu("Archivo");
+		JMenu ayuda = new JMenu("Ayuda");
+		JMenuItem nuevo_juego = new JMenuItem("Nuevo juego");
+		JMenuItem salir = new JMenuItem("Salir");
+		JMenuItem como_jugar = new JMenuItem("Cómo jugar");
+		JMenuItem acerca_de = new JMenuItem("Acerca de");
+		
+		crearBarraMenu(barra_menu, archivo, ayuda, nuevo_juego, salir, como_jugar, acerca_de);
+		
+		crearColores(y);
+		
+		botonComprobar = new JButton("Comprobar");
+		botonComprobar.setBounds(180, y, 100, 23);
+		contentPane.add(botonComprobar);
+		botonComprobar.addActionListener(this);
 	}
+	
+	public void crearBarraMenu(JMenuBar barra_menu, JMenu archivo, JMenu ayuda, JMenuItem nuevo_juego, JMenuItem salir, JMenuItem como_jugar, JMenuItem acerca_de) {		
+		barra_menu.add(archivo);
+		barra_menu.add(ayuda);
+		archivo.add(nuevo_juego);
+		archivo.add(salir);
+		ayuda.add(como_jugar);
+		ayuda.add(acerca_de);
+		setJMenuBar(barra_menu);
+	}	
 	
 	// crear_colores. Asignamos colores aleatorios al array de 4 posiciones.
 	public void crearColores(int y) {		
@@ -131,7 +168,7 @@ public class Mastermind extends JFrame implements ActionListener{
 					contentPane.add(bolaTemp);
 				} else {
 					for (int j = 0; j < bola_solucion.length; j++) {
-						if(solucionUsuario[i].getRGB() == bola_solucion[j].getRGB() && solucionUsuario[j].getRGB() != bola_solucion[j].getRGB()) {
+						if(solucionUsuario[i].getRGB() == bola_solucion[j].getRGB()) {
 							JLabel bolaTemp = new JLabel("");
 							bolaTemp.setForeground(Color.WHITE);
 							bolaTemp.setBackground(Color.WHITE);
@@ -152,7 +189,7 @@ public class Mastermind extends JFrame implements ActionListener{
 
 	public void crearSolucion() {
 //		for(int i = 0; i < bola_solucion.length; i++) {
-//			rand = (int)(Math.random() * (6 - 0)+0);
+//			rand = (int)(Math.random() * (4 - 0)+0);
 //			bola_solucion[i] = coloresDisponibles[rand];
 //		}
 		JLabel bolasolucionUno, bolasolucionDos, bolasolucionTres, bolasolucionCuatro;
@@ -188,8 +225,14 @@ public class Mastermind extends JFrame implements ActionListener{
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		botonComprobar.setBounds(180, y+=40, 100, 23);
+		crearColores(y);
+		contentPane.revalidate();
+		contentPane.repaint();
+		comprobarSolucionUsuario(y);
+		contentPane.revalidate();
+		contentPane.repaint();
 	}
-	
 	/* crear_solución. Obtener aleatoriamente colores para la solución. Estos colores los guardamos
 	   en un vector aux. */
 	

@@ -48,6 +48,7 @@ public class Mastermind extends JFrame implements ActionListener{
 	private Border border = BorderFactory.createLineBorder(Color.BLACK, 3);
 	
 	private Niveles nivel = new Niveles();
+	private int nivel_seleccionado;
 	
 	public Mastermind() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -65,6 +66,7 @@ public class Mastermind extends JFrame implements ActionListener{
 					public void run() {
 						try {
 							nivel.setVisible(true);
+							nivel_seleccionado = nivel.getBoton_seleccionado();
 						} catch (Exception e) {
 							e.printStackTrace();
 						}
@@ -96,13 +98,22 @@ public class Mastermind extends JFrame implements ActionListener{
 		
 		acerca_de.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Fet per l'equip 3");
+				EventQueue.invokeLater(new Runnable() {
+					public void run() {
+						try {
+							Informacion info = new Informacion();
+							info.setVisible(true);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+				});
 			}
 		});
 		
 		
 		
-		crearColores(y);
+		crearColores(y,nivel_seleccionado);
 		
 		botonComprobar = new JButton("Comprobar");
 		botonComprobar.setBounds(180, y, 100, 23);
@@ -121,8 +132,17 @@ public class Mastermind extends JFrame implements ActionListener{
 	}	
 	
 	// crear_colores. Asignamos colores aleatorios al array de 4 posiciones.
-	public void crearColores(int y) {		
+	public void crearColores(int y, int nivel) {		
 		crearSolucion();
+		/**
+		 * Nivel sale 1ero un 0, luego sale el num que toca, la 1era partida sale 0 directamente
+		 * Se tiene que poder coger el numero de colores disponibles y el de intentos (variables de niveles) para al crear solucion
+		 * cambie según el nivel que se haya escogido
+		 * El nivel se cambia en un menu de juego llamado nivel, el juego nuevo es para empezar de 0 en el nivel que se estaba por ello lo de borrar componentes
+		 * 
+		 * hay que crear metodo borrar_componentes (diapo 4) 
+		 */
+		System.out.println(nivel);
 		
 		bolacoloresUno = new JLabel("");
 		bolacoloresUno.setForeground(Color.WHITE);
@@ -273,7 +293,7 @@ public class Mastermind extends JFrame implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		botonComprobar.setBounds(180, y+=40, 100, 23);
-		crearColores(y);
+		crearColores(y,nivel_seleccionado);
 		contentPane.revalidate();
 		contentPane.repaint();
 		comprobarSolucionUsuario(y);

@@ -17,8 +17,8 @@ import java.awt.event.MouseEvent;
 public class Niveles extends JFrame {
 
 	private JPanel contentPane;
-	private int boton_seleccionado;
-	private int boton_intentos;
+	private int boton_seleccionado = 5;
+	private int boton_intentos = 8;
 
 	/**
 	 * Create the frame.
@@ -36,6 +36,7 @@ public class Niveles extends JFrame {
 		contentPane.add(rbtnPrincipiante);
 		
 		JRadioButton rbtnMedio = new JRadioButton("Medio");
+		rbtnMedio.setSelected(true);
 		rbtnMedio.setBounds(62, 65, 111, 23);
 		contentPane.add(rbtnMedio);
 		
@@ -49,9 +50,8 @@ public class Niveles extends JFrame {
 		bgroup.add(rbtnAvanzado);
 		
 		JButton btnNewButton = new JButton("Aceptar");
-		btnNewButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
 				if(rbtnPrincipiante.isSelected()) {
 					boton_seleccionado = 4;
 					boton_intentos = 10;
@@ -62,6 +62,11 @@ public class Niveles extends JFrame {
 					boton_seleccionado = 6;
 					boton_intentos = 6;
 				}
+				Mastermind m = new Mastermind();
+				m.crearColores(m.getY(),boton_seleccionado);
+				
+				
+				dispose();
 			}
 		});
 		btnNewButton.setBounds(23, 152, 89, 23);

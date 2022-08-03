@@ -19,7 +19,9 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class JuegoMainApp extends JFrame implements ActionListener{
-
+	/**
+	 * hola
+	 */
 	private JPanel contentPane;
 	private int y = 11;
 	private Mastermind mastermind;

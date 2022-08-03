@@ -47,6 +47,8 @@ public class Mastermind extends JFrame implements ActionListener{
 	private int rand;
 	private Border border = BorderFactory.createLineBorder(Color.BLACK, 3);
 	
+	private Niveles nivel = new Niveles();
+	
 	public Mastermind() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 864, 521);

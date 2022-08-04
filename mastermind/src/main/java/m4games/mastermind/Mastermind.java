@@ -168,32 +168,64 @@ public class Mastermind extends JFrame implements ActionListener{
 		bolacoloresUno.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-            	cambiarColor(bolacoloresUno);
-            	solucionUsuario[0] = bolacoloresUno.getBackground();
+            	if (e.getButton()==MouseEvent.BUTTON1){
+					//Se presiono el boton izquierdo
+					cambiarColorI(bolacoloresUno);
+					solucionUsuario[0] = bolacoloresUno.getBackground();
+				}
+				if(e.getButton()==MouseEvent.BUTTON3){
+					//Se presiono el boton derecho
+					cambiarColor(bolacoloresUno);
+					solucionUsuario[0] = bolacoloresUno.getBackground();
+				}
             }
         });
 		
 		bolacoloresDos.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-            	cambiarColor(bolacoloresDos);
-        		solucionUsuario[1] = bolacoloresDos.getBackground();
+            	if (e.getButton()==MouseEvent.BUTTON1){
+					//Se presiono el boton izquierdo
+					cambiarColorI(bolacoloresDos);
+					solucionUsuario[1] = bolacoloresDos.getBackground();
+				}
+				if(e.getButton()==MouseEvent.BUTTON3){
+					//Se presiono el boton derecho
+					cambiarColor(bolacoloresDos);
+					solucionUsuario[1] = bolacoloresDos.getBackground();
+				}
             }
         });
 		
 		bolacoloresTres.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-            	cambiarColor(bolacoloresTres);
-        		solucionUsuario[2] = bolacoloresTres.getBackground();
+            	if (e.getButton()==MouseEvent.BUTTON1){
+					//Se presiono el boton izquierdo
+					cambiarColorI(bolacoloresTres);
+					solucionUsuario[2] = bolacoloresTres.getBackground();
+				}
+				if(e.getButton()==MouseEvent.BUTTON3){
+					//Se presiono el boton derecho
+					cambiarColor(bolacoloresTres);
+					solucionUsuario[2] = bolacoloresTres.getBackground();
+				}
             }
         });
 		
 		bolacoloresCuatro.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-            	cambiarColor(bolacoloresCuatro);
-            	solucionUsuario[3] = bolacoloresCuatro.getBackground();
+            	if (e.getButton()==MouseEvent.BUTTON1){
+					//Se presiono el boton izquierdo
+					cambiarColorI(bolacoloresCuatro);
+					solucionUsuario[3] = bolacoloresCuatro.getBackground();
+				}
+				if(e.getButton()==MouseEvent.BUTTON3){
+					//Se presiono el boton derecho
+					cambiarColor(bolacoloresCuatro);
+					solucionUsuario[3] = bolacoloresCuatro.getBackground();
+				}
             }
         });
 		
@@ -224,6 +256,34 @@ public class Mastermind extends JFrame implements ActionListener{
 	    		bolaColores.setBackground(coloresArray[contador]);
 	    		contador++;
 	    	}
+		}
+	}
+	
+	public void cambiarColorI(JLabel bolaColores) {
+		if(nivelDificultad == 4) {
+			if(contador == 0) {
+				contador = 3;
+				bolaColores.setBackground(coloresDisponiblesPrincipiante[contador]);
+			} else {
+				contador--;
+				bolaColores.setBackground(coloresDisponiblesPrincipiante[contador]);
+			}
+		} else if (nivelDificultad == 5) {
+			if(contador == 0) {
+				contador = 4;
+				bolaColores.setBackground(coloresDisponiblesMedio[contador]);
+			} else {
+				contador--;
+				bolaColores.setBackground(coloresDisponiblesMedio[contador]);
+			}
+		} else if (nivelDificultad == 6) {
+			if(contador == 0) {
+				contador = 5;
+				bolaColores.setBackground(coloresArray[contador]);
+			} else {
+				contador--;
+				bolaColores.setBackground(coloresArray[contador]);
+			}
 		}
 	}
 	

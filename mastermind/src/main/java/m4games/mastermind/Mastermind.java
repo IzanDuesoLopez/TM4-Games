@@ -56,6 +56,8 @@ public class Mastermind extends JFrame implements ActionListener{
 	private int nivel_seleccionado;
 	private int amplitudColoresDisponibles = 209;
 	
+	private JLabel labelNumIntentos;
+	
 	public Mastermind() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 864, 521);
@@ -73,6 +75,11 @@ public class Mastermind extends JFrame implements ActionListener{
 		solucionLabel2.setFont(new Font("Tahoma", Font.BOLD, 14));
 		solucionLabel2.setBounds(598, 140, 200, 25);
 		contentPane.add(solucionLabel2);
+		
+		labelNumIntentos = new JLabel("Intentos restantes: " + intentos);
+		labelNumIntentos.setFont(new Font("Tahoma", Font.BOLD, 14));
+		labelNumIntentos.setBounds(598, 240, 200, 25);
+		contentPane.add(labelNumIntentos);
 		
 		JLabel bordeSolucion = new JLabel("");
 		bordeSolucion.setBounds(572, 11, 209, 95);
@@ -92,58 +99,7 @@ public class Mastermind extends JFrame implements ActionListener{
 		
 		crearBarraMenu(barra_menu, archivo, ayuda, nuevo_juego, salir, como_jugar, acerca_de);
 		
-		nuevo_juego.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				EventQueue.invokeLater(new Runnable() {
-					public void run() {
-						try {
-							nivel.setVisible(true);
-							nivel_seleccionado = nivel.getBoton_seleccionado();
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-					}
-				});
-			}
-		});
-		
-		salir.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				dispose();
-			}
-		});
-		
-		como_jugar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				EventQueue.invokeLater(new Runnable() {
-					public void run() {
-						try {
-							Reglas reglas = new Reglas();
-							reglas.setVisible(true);
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-					}
-				});
-			}
-		});
-		
-		acerca_de.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				EventQueue.invokeLater(new Runnable() {
-					public void run() {
-						try {
-							Informacion info = new Informacion();
-							info.setVisible(true);
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-					}
-				});
-			}
-		});
-		
-		
+		funcionalidadBarraMenu();
 		
 		crearColores(y,nivel_seleccionado);
 		
@@ -314,6 +270,7 @@ public class Mastermind extends JFrame implements ActionListener{
 				} else if (intentos > 0) {
 					numFichasNegras = 0;
 					intentos--;
+					labelNumIntentos.setText("Intentos restantes: " + intentos);
 					System.out.println("Intentos: " + intentos);
 				}
 			}
@@ -408,6 +365,59 @@ public class Mastermind extends JFrame implements ActionListener{
 		bolasolucionCuatro.setBounds(720, 50, 30, 30);
 		contentPane.add(bolasolucionCuatro);
 	}
+	public void funcionalidadBarraMenu() {
+		nuevo_juego.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				EventQueue.invokeLater(new Runnable() {
+					public void run() {
+						try {
+							nivel.setVisible(true);
+							nivel_seleccionado = nivel.getBoton_seleccionado();
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+				});
+			}
+		});
+
+		salir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+			}
+		});
+
+		como_jugar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				EventQueue.invokeLater(new Runnable() {
+					public void run() {
+						try {
+							Reglas reglas = new Reglas();
+							reglas.setVisible(true);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+				});
+			}
+		});
+
+		acerca_de.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				EventQueue.invokeLater(new Runnable() {
+					public void run() {
+						try {
+							Informacion info = new Informacion();
+							info.setVisible(true);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+				});
+			}
+		});
+	}
+	
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {

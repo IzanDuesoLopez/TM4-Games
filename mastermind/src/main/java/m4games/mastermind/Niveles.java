@@ -21,7 +21,8 @@ public class Niveles extends JFrame {
 	private int boton_intentos = 8;
 
 	/**
-	 * Create the frame.
+	 * Constructor de una ventana que permite elegir el nivel de dificultad mediante tres radiobuttons
+	 * @param frameMastermind
 	 */
 	public Niveles(Mastermind frameMastermind) {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -50,6 +51,11 @@ public class Niveles extends JFrame {
 		bgroup.add(rbtnAvanzado);
 		
 		JButton btnNewButton = new JButton("Aceptar");
+		/**
+		 * Se añade el actionListener al botón de aceptar para elegir una de las tres dificultades. 
+		 * Se pasan los valores del número de colores disponibles y del número de intentos a la instancia de Mastermind
+		 * para crear una nueva ventana y se cierra la ventana anterior.
+		 */
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(rbtnPrincipiante.isSelected()) {
@@ -74,6 +80,10 @@ public class Niveles extends JFrame {
 		contentPane.add(btnNewButton);
 		
 		JButton btnNewButton_1 = new JButton("Cancelar");
+		/**
+		 * Se añade el actionListener al botón de salir del menú,
+		 * se cierra la ventana actual y se sale del programa.
+		 */
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//this.setVisible(false);

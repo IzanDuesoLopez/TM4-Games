@@ -17,13 +17,13 @@ import java.awt.event.MouseEvent;
 public class Niveles extends JFrame {
 
 	private JPanel contentPane;
-	private int boton_seleccionado = 6;
+	private int boton_seleccionado = 6; // 4 - 5 - 6
 	private int boton_intentos = 8;
 
 	/**
 	 * Create the frame.
 	 */
-	public Niveles() {
+	public Niveles(Mastermind frameMastermind) {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 266, 267);
 		contentPane = new JPanel();
@@ -62,9 +62,10 @@ public class Niveles extends JFrame {
 					boton_seleccionado = 6;
 					boton_intentos = 6;
 				}
-				Mastermind m = new Mastermind();
-				m.crearColores(m.getY(),boton_seleccionado);
-				
+				Mastermind m = new Mastermind(boton_seleccionado);
+				frameMastermind.setEnabled(false);
+				frameMastermind.setVisible(false);
+				m.setVisible(true);
 				
 				dispose();
 			}

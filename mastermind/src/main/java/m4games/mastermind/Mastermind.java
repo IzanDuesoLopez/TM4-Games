@@ -49,14 +49,17 @@ public class Mastermind extends JFrame implements ActionListener{
 	private Color[] bola_solucion = {Color.BLUE, Color.RED, Color.BLACK, Color.GREEN};
 	private int rand;
 	private Border border = BorderFactory.createLineBorder(Color.BLACK, 2);
-
-	private Niveles nivel = new Niveles();
+	
+	private Niveles nivel = new Niveles(this);
 	private int intentos = nivel.getBoton_intentos();
 	private int nivelDificultad = nivel.getBoton_seleccionado();
 	private int nivel_seleccionado;
 	private int amplitudColoresDisponibles = 209;
-
-	public Mastermind() {
+	
+	private JLabel labelNumIntentos;
+	
+	public Mastermind(int nivel_seleccionado) {
+		this.nivelDificultad = nivel_seleccionado;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 864, 521);
 		contentPane = new JPanel();
@@ -324,6 +327,7 @@ public class Mastermind extends JFrame implements ActionListener{
 				} else if (intentos > 0) {
 					numFichasNegras = 0;
 					intentos--;
+					labelNumIntentos.setText("Intentos restantes: " + intentos);
 					System.out.println("Intentos: " + intentos);
 				}
 			}

@@ -2,6 +2,7 @@ package m4games.mastermind;
 
 import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -39,17 +40,21 @@ public class Mastermind extends JFrame implements ActionListener{
 	// Vector de colores
 	private Color[] coloresArray =  {Color.RED, Color.GREEN, Color.BLUE, Color.BLACK, Color.PINK, Color.ORANGE};
 	private Color[] coloresDisponibles =  { Color.RED, Color.GREEN, Color.BLUE, Color.BLACK, Color.PINK, Color.ORANGE};
+	private Color[] coloresDisponiblesPrincipiante =  { Color.RED, Color.GREEN, Color.BLUE, Color.BLACK};
+	private Color[] coloresDisponiblesMedio =  { Color.RED, Color.GREEN, Color.BLUE, Color.BLACK, Color.PINK};
 	private ArrayList<Color> colores = new ArrayList<Color>();
 	private JLabel bolacoloresUno, bolacoloresDos, bolacoloresTres, bolacoloresCuatro, bolaTemp;
 	private JLabel bolaresulUno, bolaresulDos, bolaresulTres, bolaresulCuatro;
 	private Color[] solucionUsuario = new Color[4];
-	private Color[] bola_solucion = {Color.RED, Color.GREEN, Color.BLACK, Color.BLACK};
+	private Color[] bola_solucion = {Color.BLUE, Color.RED, Color.BLACK, Color.GREEN};
 	private int rand;
-	private Border border = BorderFactory.createLineBorder(Color.BLACK, 3);
+	private Border border = BorderFactory.createLineBorder(Color.BLACK, 2);
 	
 	private Niveles nivel = new Niveles();
 	private int intentos = nivel.getBoton_intentos();
+	private int nivelDificultad = nivel.getBoton_seleccionado();
 	private int nivel_seleccionado;
+	private int amplitudColoresDisponibles = 209;
 	
 	public Mastermind() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -58,6 +63,32 @@ public class Mastermind extends JFrame implements ActionListener{
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		
+		JLabel solucionLabel = new JLabel("Solución");
+		solucionLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
+		solucionLabel.setBounds(598, 24, 90, 14);
+		contentPane.add(solucionLabel);
+		
+		JLabel solucionLabel2 = new JLabel("Colores disponibles");
+		solucionLabel2.setFont(new Font("Tahoma", Font.BOLD, 14));
+		solucionLabel2.setBounds(598, 140, 200, 25);
+		contentPane.add(solucionLabel2);
+		
+		JLabel bordeSolucion = new JLabel("");
+		bordeSolucion.setBounds(572, 11, 209, 95);
+		contentPane.add(bordeSolucion);
+		bordeSolucion.setBorder(border);
+		
+		if(nivelDificultad == 5) {
+			amplitudColoresDisponibles += 30;
+		} else if (nivelDificultad == 6) {
+			amplitudColoresDisponibles += 60;
+		}
+		
+		JLabel bordeColoresDisponibles = new JLabel("");
+		bordeColoresDisponibles.setBounds(572, 130, amplitudColoresDisponibles, 95);
+		contentPane.add(bordeColoresDisponibles);
+		bordeColoresDisponibles.setBorder(border);
 		
 		crearBarraMenu(barra_menu, archivo, ayuda, nuevo_juego, salir, como_jugar, acerca_de);
 		
@@ -129,86 +160,63 @@ public class Mastermind extends JFrame implements ActionListener{
 		bolacoloresUno.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-            	 if (e.getButton()==MouseEvent.BUTTON1){
-         	        //Se presiono el boton izquierdo
-         		 cambiarColorI(bolacoloresUno);
-              	solucionUsuario[0] = bolacoloresUno.getBackground();
-         	    }
-         	    if(e.getButton()==MouseEvent.BUTTON3){
-         	        //Se presiono el boton derecho
-         	    	cambiarColor(bolacoloresUno);
-                 	solucionUsuario[0] = bolacoloresUno.getBackground();
-         	    }
+            	cambiarColor(bolacoloresUno);
+            	solucionUsuario[0] = bolacoloresUno.getBackground();
             }
         });
 		
 		bolacoloresDos.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-            	 if (e.getButton()==MouseEvent.BUTTON1){
-         	        //Se presiono el boton izquierdo
-         		 cambiarColorI(bolacoloresDos);
-              	solucionUsuario[0] = bolacoloresDos.getBackground();
-         	    }
-         	    if(e.getButton()==MouseEvent.BUTTON3){
-         	        //Se presiono el boton derecho
-         	    	cambiarColor(bolacoloresDos);
-                 	solucionUsuario[0] = bolacoloresDos.getBackground();
-         	    }
+            	cambiarColor(bolacoloresDos);
+        		solucionUsuario[1] = bolacoloresDos.getBackground();
             }
         });
 		
 		bolacoloresTres.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-            	 if (e.getButton()==MouseEvent.BUTTON1){
-         	        //Se presiono el boton izquierdo
-         		 cambiarColorI(bolacoloresTres);
-              	solucionUsuario[0] = bolacoloresTres.getBackground();
-         	    }
-         	    if(e.getButton()==MouseEvent.BUTTON3){
-         	        //Se presiono el boton derecho
-         	    	cambiarColor(bolacoloresTres);
-                 	solucionUsuario[0] = bolacoloresTres.getBackground();
-         	    }
+            	cambiarColor(bolacoloresTres);
+        		solucionUsuario[2] = bolacoloresTres.getBackground();
             }
         });
 		
 		bolacoloresCuatro.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-            	 if (e.getButton()==MouseEvent.BUTTON1){
-         	        //Se presiono el boton izquierdo
-         		 cambiarColorI(bolacoloresCuatro);
-              	solucionUsuario[0] = bolacoloresCuatro.getBackground();
-         	    }
-         	    if(e.getButton()==MouseEvent.BUTTON3){
-         	        //Se presiono el boton derecho
-         	    	cambiarColor(bolacoloresCuatro);
-                 	solucionUsuario[0] = bolacoloresCuatro.getBackground();
-         	    }
+            	cambiarColor(bolacoloresCuatro);
+            	solucionUsuario[3] = bolacoloresCuatro.getBackground();
             }
         });
+		
 	}
 	
 	public void cambiarColor(JLabel bolaColores) {
-		if(contador == coloresArray.length - 1) {
-			bolaColores.setBackground(coloresArray[contador]);
-    		contador = 0;
-    	} else {
-    		bolaColores.setBackground(coloresArray[contador]);
-    		contador++;
-    	}
-	}
-	
-	public void cambiarColorI(JLabel bolaColores) {
-		if(contador == 0) {
-			contador = 5;
-			bolaColores.setBackground(coloresArray[contador]);
-    	} else {
-    		contador--;
-    		bolaColores.setBackground(coloresArray[contador]);
-    	}
+		if(nivelDificultad == 4) {
+			if(contador == coloresDisponiblesPrincipiante.length - 1) {
+				bolaColores.setBackground(coloresDisponiblesPrincipiante[contador]);
+	    		contador = 0;
+	    	} else {
+	    		bolaColores.setBackground(coloresDisponiblesPrincipiante[contador]);
+	    		contador++;
+	    	}
+		} else if (nivelDificultad == 5) {
+			if(contador == coloresDisponiblesMedio.length - 1) {
+				bolaColores.setBackground(coloresDisponiblesMedio[contador]);
+	    		contador = 0;
+	    	} else {
+	    		bolaColores.setBackground(coloresDisponiblesMedio[contador]);
+	    		contador++;
+	    	}
+		} else if (nivelDificultad == 6) {
+			if(contador == coloresArray.length - 1) {
+				bolaColores.setBackground(coloresArray[contador]);
+	    		contador = 0;
+	    	} else {
+	    		bolaColores.setBackground(coloresArray[contador]);
+	    		contador++;
+	    	}
+		}
 	}
 	
 	public void comprobarSolucionUsuario(int y) {
@@ -246,7 +254,7 @@ public class Mastermind extends JFrame implements ActionListener{
 			}
 			if(numFichasNegras == 4) {
 				hasGanado = true;
-				JOptionPane.showMessageDialog(null, "HAS GANADO");
+				JOptionPane.showMessageDialog(null, "HAS GANADO! \n" + "Número de intentos restantes: " + intentos);
 				botonComprobar.setEnabled(false);
 			} else {
 				if(intentos  <= 0) {
@@ -266,10 +274,61 @@ public class Mastermind extends JFrame implements ActionListener{
 	public void crearSolucion() {
 //		for(int i = 0; i < bola_solucion.length; i++) {
 //			rand = (int)(Math.random() * (4 - 0)+0);
-//			bola_solucion[i] = coloresDisponibles[rand];
+//			bola_solucion[i] = coloresArray[rand];
 //		}
 		JLabel bolasolucionUno, bolasolucionDos, bolasolucionTres, bolasolucionCuatro;
+		JLabel colorDisponibleUno, colorDisponibleDos, colorDisponibleTres, colorDisponibleCuatro, colorDisponibleCinco, colorDisponibleSeis;
         
+		colorDisponibleUno = new JLabel("");
+		colorDisponibleUno.setBackground(coloresDisponibles[0]);
+		colorDisponibleUno.setBorder(border);
+		colorDisponibleUno.setOpaque(true);
+		colorDisponibleUno.setBounds(600, 170, 30, 30);
+		contentPane.add(colorDisponibleUno);
+		
+		colorDisponibleDos = new JLabel("");
+		colorDisponibleDos.setBackground(coloresDisponibles[1]);
+		colorDisponibleDos.setBorder(border);
+		colorDisponibleDos.setOpaque(true);
+		colorDisponibleDos.setBounds(640, 170, 30, 30);
+		contentPane.add(colorDisponibleDos);
+		
+		colorDisponibleTres = new JLabel("");
+		colorDisponibleTres.setBackground(coloresDisponibles[2]);
+		colorDisponibleTres.setBorder(border);
+		colorDisponibleTres.setOpaque(true);
+		colorDisponibleTres.setBounds(680, 170, 30, 30);
+		contentPane.add(colorDisponibleTres);
+		
+		colorDisponibleCuatro = new JLabel("");
+		colorDisponibleCuatro.setBackground(coloresDisponibles[3]);
+		colorDisponibleCuatro.setBorder(border);
+		colorDisponibleCuatro.setOpaque(true);
+		colorDisponibleCuatro.setBounds(720, 170, 30, 30);
+		contentPane.add(colorDisponibleCuatro);
+		
+		if(nivelDificultad == 5) {
+			colorDisponibleCinco = new JLabel("");
+			colorDisponibleCinco.setBackground(coloresDisponibles[4]);
+			colorDisponibleCinco.setBorder(border);
+			colorDisponibleCinco.setOpaque(true);
+			colorDisponibleCinco.setBounds(760, 170, 30, 30);
+			contentPane.add(colorDisponibleCinco);
+		} else if (nivelDificultad == 6) {
+			colorDisponibleCinco = new JLabel("");
+			colorDisponibleCinco.setBackground(coloresDisponibles[4]);
+			colorDisponibleCinco.setBorder(border);
+			colorDisponibleCinco.setOpaque(true);
+			colorDisponibleCinco.setBounds(760, 170, 30, 30);
+			contentPane.add(colorDisponibleCinco);
+			
+			colorDisponibleSeis = new JLabel("");
+			colorDisponibleSeis.setBackground(coloresDisponibles[5]);
+			colorDisponibleSeis.setBorder(border);
+			colorDisponibleSeis.setOpaque(true);
+			colorDisponibleSeis.setBounds(800, 170, 30, 30);
+			contentPane.add(colorDisponibleSeis);
+		}
 		bolasolucionUno = new JLabel("");
 		bolasolucionUno.setBackground(bola_solucion[0]);
 		bolasolucionUno.setBorder(border);

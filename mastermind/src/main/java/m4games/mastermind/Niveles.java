@@ -17,7 +17,7 @@ import java.awt.event.MouseEvent;
 public class Niveles extends JFrame {
 
 	private JPanel contentPane;
-	private int boton_seleccionado = 5;
+	private int boton_seleccionado = 6;
 	private int boton_intentos = 8;
 
 	/**

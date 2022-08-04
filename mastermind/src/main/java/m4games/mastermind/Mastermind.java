@@ -50,6 +50,7 @@ public class Mastermind extends JFrame implements ActionListener{
 	private int rand;
 	private Border border = BorderFactory.createLineBorder(Color.BLACK, 2);
 	
+	//Componentes de niveles
 	private Niveles nivel = new Niveles(this);
 	private int intentos = nivel.getBoton_intentos();
 	private int nivelDificultad = nivel.getBoton_seleccionado();
@@ -58,6 +59,10 @@ public class Mastermind extends JFrame implements ActionListener{
 	
 	private JLabel labelNumIntentos;
 	
+	/**
+	 * Constructor principal de Mastermind
+	 * @param nivel_seleccionado
+	 */
 	public Mastermind(int nivel_seleccionado) {
 		this.nivelDificultad = nivel_seleccionado;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -102,7 +107,7 @@ public class Mastermind extends JFrame implements ActionListener{
 		
 		funcionalidadBarraMenu();
 		
-		crearColores(y,nivel_seleccionado);
+		crearColores(y,nivel_seleccionado); // Llamamos al método que añade los componentes de label a la ejecución
 		
 		botonComprobar = new JButton("Comprobar");
 		botonComprobar.setBounds(180, y, 100, 23);
@@ -110,6 +115,16 @@ public class Mastermind extends JFrame implements ActionListener{
 		botonComprobar.addActionListener(this);
 	}
 	
+	/**
+	 * Añadimos al menú sus diferentes opciones
+	 * @param barra_menu
+	 * @param archivo
+	 * @param ayuda
+	 * @param nuevo_juego
+	 * @param salir
+	 * @param como_jugar
+	 * @param acerca_de
+	 */
 	public void crearBarraMenu(JMenuBar barra_menu, JMenu archivo, JMenu ayuda, JMenuItem nuevo_juego, JMenuItem salir, JMenuItem como_jugar, JMenuItem acerca_de) {		
 		barra_menu.add(archivo);
 		barra_menu.add(ayuda);
@@ -120,17 +135,14 @@ public class Mastermind extends JFrame implements ActionListener{
 		setJMenuBar(barra_menu);
 	}	
 	
-	// crear_colores. Asignamos colores aleatorios al array de 4 posiciones.
+	/**
+	 * Creamos en el frame de Mastermind las diferentes casillas junto con la solución disponible. Incluimos listener
+	 * a las label con click bidireccional para ir cambiando el color
+	 * @param y
+	 * @param nivel
+	 */
 	public void crearColores(int y, int nivel) {		
 		crearSolucion();
-		/**
-		 * Nivel sale 1ero un 0, luego sale el num que toca, la 1era partida sale 0 directamente
-		 * Se tiene que poder coger el numero de colores disponibles y el de intentos (variables de niveles) para al crear solucion
-		 * cambie según el nivel que se haya escogido
-		 * El nivel se cambia en un menu de juego llamado nivel, el juego nuevo es para empezar de 0 en el nivel que se estaba por ello lo de borrar componentes
-		 * 
-		 * hay que crear metodo borrar_componentes (diapo 4) 
-		 */
 		System.out.println(nivel);
 		
 		bolacoloresUno = new JLabel("");
@@ -231,6 +243,10 @@ public class Mastermind extends JFrame implements ActionListener{
 		
 	}
 	
+	/**
+	 * Cambia el color de la label hacia la derecha. El tamaño de la lista de colores dependerá del nivel de dificultad
+	 * @param bolaColores
+	 */
 	public void cambiarColor(JLabel bolaColores) {
 		if(nivelDificultad == 4) {
 			if(contador == coloresDisponiblesPrincipiante.length - 1) {
@@ -259,6 +275,10 @@ public class Mastermind extends JFrame implements ActionListener{
 		}
 	}
 	
+	/**
+	 * Cambia el color de la label hacia la izquierda. El tamaño de la lista de colores dependerá del nivel de dificultad
+	 * @param bolaColores
+	 */
 	public void cambiarColorI(JLabel bolaColores) {
 		if(nivelDificultad == 4) {
 			if(contador == 0) {
@@ -287,6 +307,10 @@ public class Mastermind extends JFrame implements ActionListener{
 		}
 	}
 	
+	/**
+	 * Comprobamos que las fichas que ha introducido el usuario son correctas
+	 * @param y
+	 */
 	public void comprobarSolucionUsuario(int y) {
 		int x = 270;
 		
@@ -340,11 +364,10 @@ public class Mastermind extends JFrame implements ActionListener{
 		}
 	}
 
+	/**
+	 * Creamos una solución de colores
+	 */
 	public void crearSolucion() {
-//		for(int i = 0; i < bola_solucion.length; i++) {
-//			rand = (int)(Math.random() * (4 - 0)+0);
-//			bola_solucion[i] = coloresArray[rand];
-//		}
 		JLabel bolasolucionUno, bolasolucionDos, bolasolucionTres, bolasolucionCuatro;
 		JLabel colorDisponibleUno, colorDisponibleDos, colorDisponibleTres, colorDisponibleCuatro, colorDisponibleCinco, colorDisponibleSeis;
         
@@ -426,6 +449,10 @@ public class Mastermind extends JFrame implements ActionListener{
 		bolasolucionCuatro.setBounds(720, 50, 30, 30);
 		contentPane.add(bolasolucionCuatro);
 	}
+	
+	/**
+	 * Para cada una de las opciones del menú creamos un listener
+	 */
 	public void funcionalidadBarraMenu() {
 		nuevo_juego.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -480,6 +507,9 @@ public class Mastermind extends JFrame implements ActionListener{
 	}
 	
 	
+	/**
+	 * Cuando presionamos el botón comprobar, comprobamos la solución del usuario
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		botonComprobar.setBounds(180, y+=40, 100, 23);
@@ -490,13 +520,4 @@ public class Mastermind extends JFrame implements ActionListener{
 		contentPane.revalidate();
 		contentPane.repaint();
 	}
-	/* crear_solución. Obtener aleatoriamente colores para la solución. Estos colores los guardamos
-	   en un vector aux. */
-	
-	// crear_linea_bola. Creamos un conjunto de 4 PictureBox con una constante con valor 4. A su lado crearemos un boton comprobar.
-	
-	// borrar_componentes. Nos permite borrar todos los componentes creados durante el juego cuando pulsamos nuevo Juego.
-	
-	// Método ayuda. Nos explica como jugar, acerca de (con información de los alumnos)
-	
 }

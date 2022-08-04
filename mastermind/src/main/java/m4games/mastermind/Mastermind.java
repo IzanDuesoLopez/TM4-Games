@@ -40,6 +40,8 @@ public class Mastermind extends JFrame implements ActionListener{
 	// Vector de colores
 	private Color[] coloresArray =  {Color.RED, Color.GREEN, Color.BLUE, Color.BLACK, Color.PINK, Color.ORANGE};
 	private Color[] coloresDisponibles =  { Color.RED, Color.GREEN, Color.BLUE, Color.BLACK, Color.PINK, Color.ORANGE};
+	private Color[] coloresDisponiblesPrincipiante =  { Color.RED, Color.GREEN, Color.BLUE, Color.BLACK};
+	private Color[] coloresDisponiblesMedio =  { Color.RED, Color.GREEN, Color.BLUE, Color.BLACK, Color.PINK};
 	private ArrayList<Color> colores = new ArrayList<Color>();
 	private JLabel bolacoloresUno, bolacoloresDos, bolacoloresTres, bolacoloresCuatro, bolaTemp;
 	private JLabel bolaresulUno, bolaresulDos, bolaresulTres, bolaresulCuatro;
@@ -241,13 +243,31 @@ public class Mastermind extends JFrame implements ActionListener{
 	}
 	
 	public void cambiarColor(JLabel bolaColores) {
-		if(contador == coloresArray.length - 1) {
-			bolaColores.setBackground(coloresArray[contador]);
-    		contador = 0;
-    	} else {
-    		bolaColores.setBackground(coloresArray[contador]);
-    		contador++;
-    	}
+		if(nivelDificultad == 4) {
+			if(contador == coloresDisponiblesPrincipiante.length - 1) {
+				bolaColores.setBackground(coloresDisponiblesPrincipiante[contador]);
+	    		contador = 0;
+	    	} else {
+	    		bolaColores.setBackground(coloresDisponiblesPrincipiante[contador]);
+	    		contador++;
+	    	}
+		} else if (nivelDificultad == 5) {
+			if(contador == coloresDisponiblesMedio.length - 1) {
+				bolaColores.setBackground(coloresDisponiblesMedio[contador]);
+	    		contador = 0;
+	    	} else {
+	    		bolaColores.setBackground(coloresDisponiblesMedio[contador]);
+	    		contador++;
+	    	}
+		} else if (nivelDificultad == 6) {
+			if(contador == coloresArray.length - 1) {
+				bolaColores.setBackground(coloresArray[contador]);
+	    		contador = 0;
+	    	} else {
+	    		bolaColores.setBackground(coloresArray[contador]);
+	    		contador++;
+	    	}
+		}
 	}
 	
 	public void comprobarSolucionUsuario(int y) {

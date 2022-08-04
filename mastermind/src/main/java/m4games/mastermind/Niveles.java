@@ -68,7 +68,7 @@ public class Niveles extends JFrame {
 					boton_seleccionado = 6;
 					boton_intentos = 6;
 				}
-				Mastermind m = new Mastermind(boton_seleccionado);
+				Mastermind m = new Mastermind(boton_seleccionado, boton_intentos);
 				frameMastermind.setEnabled(false);
 				frameMastermind.setVisible(false);
 				m.setVisible(true);

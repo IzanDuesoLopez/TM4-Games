@@ -63,8 +63,9 @@ public class Mastermind extends JFrame implements ActionListener{
 	 * Constructor principal de Mastermind
 	 * @param nivel_seleccionado
 	 */
-	public Mastermind(int nivel_seleccionado) {
+	public Mastermind(int nivel_seleccionado, int intentos) {
 		this.nivelDificultad = nivel_seleccionado;
+		this.intentos = intentos;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 864, 521);
 		contentPane = new JPanel();

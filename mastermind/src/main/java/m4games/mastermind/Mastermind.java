@@ -61,58 +61,7 @@ public class Mastermind extends JFrame implements ActionListener{
 		
 		crearBarraMenu(barra_menu, archivo, ayuda, nuevo_juego, salir, como_jugar, acerca_de);
 		
-		nuevo_juego.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				EventQueue.invokeLater(new Runnable() {
-					public void run() {
-						try {
-							nivel.setVisible(true);
-							nivel_seleccionado = nivel.getBoton_seleccionado();
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-					}
-				});
-			}
-		});
-		
-		salir.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				dispose();
-			}
-		});
-		
-		como_jugar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				EventQueue.invokeLater(new Runnable() {
-					public void run() {
-						try {
-							Reglas reglas = new Reglas();
-							reglas.setVisible(true);
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-					}
-				});
-			}
-		});
-		
-		acerca_de.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				EventQueue.invokeLater(new Runnable() {
-					public void run() {
-						try {
-							Informacion info = new Informacion();
-							info.setVisible(true);
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-					}
-				});
-			}
-		});
-		
-		
+		funcionalidadBarraMenu();
 		
 		crearColores(y,nivel_seleccionado);
 		
@@ -349,6 +298,59 @@ public class Mastermind extends JFrame implements ActionListener{
 		bolasolucionCuatro.setBounds(720, 50, 30, 30);
 		contentPane.add(bolasolucionCuatro);
 	}
+	public void funcionalidadBarraMenu() {
+		nuevo_juego.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				EventQueue.invokeLater(new Runnable() {
+					public void run() {
+						try {
+							nivel.setVisible(true);
+							nivel_seleccionado = nivel.getBoton_seleccionado();
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+				});
+			}
+		});
+
+		salir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+			}
+		});
+
+		como_jugar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				EventQueue.invokeLater(new Runnable() {
+					public void run() {
+						try {
+							Reglas reglas = new Reglas();
+							reglas.setVisible(true);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+				});
+			}
+		});
+
+		acerca_de.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				EventQueue.invokeLater(new Runnable() {
+					public void run() {
+						try {
+							Informacion info = new Informacion();
+							info.setVisible(true);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+				});
+			}
+		});
+	}
+	
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {

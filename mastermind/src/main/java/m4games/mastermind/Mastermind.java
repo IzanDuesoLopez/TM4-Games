@@ -40,7 +40,7 @@ public class Mastermind extends JFrame implements ActionListener{
 	private Color[] coloresArray =  {Color.RED, Color.GREEN, Color.BLUE, Color.BLACK, Color.PINK, Color.ORANGE};
 	private Color[] coloresDisponibles =  { Color.RED, Color.GREEN, Color.BLUE, Color.BLACK, Color.PINK, Color.ORANGE};
 	private ArrayList<Color> colores = new ArrayList<Color>();
-	private JLabel bolacoloresUno, bolacoloresDos, bolacoloresTres, bolacoloresCuatro;
+	private JLabel bolacoloresUno, bolacoloresDos, bolacoloresTres, bolacoloresCuatro, bolaTemp;
 	private JLabel bolaresulUno, bolaresulDos, bolaresulTres, bolaresulCuatro;
 	private Color[] solucionUsuario = new Color[4];
 	private Color[] bola_solucion = {Color.RED, Color.GREEN, Color.BLACK, Color.BLACK};
@@ -48,6 +48,7 @@ public class Mastermind extends JFrame implements ActionListener{
 	private Border border = BorderFactory.createLineBorder(Color.BLACK, 3);
 	
 	private Niveles nivel = new Niveles();
+	private int intentos = nivel.getBoton_intentos();
 	private int nivel_seleccionado;
 	
 	public Mastermind() {
@@ -219,24 +220,28 @@ public class Mastermind extends JFrame implements ActionListener{
     	}
 	}
 	
-	public void comprobarSolucionUsuario(int y) {		
+	public void comprobarSolucionUsuario(int y) {
 		int x = 270;
+		
+		int numFichasNegras = 0;
+		boolean hasGanado = false;
 		
 		try {
 			for (int i = 0; i < solucionUsuario.length; i++) {
 				System.out.println("Color user: " + solucionUsuario[i] + " " + "Color solucion: " + bola_solucion[i]);
 				if(solucionUsuario[i].getRGB() == bola_solucion[i].getRGB()) {
-					JLabel bolaTemp = new JLabel("");
+					bolaTemp = new JLabel("");
 					bolaTemp.setForeground(Color.BLACK);
 					bolaTemp.setBackground(Color.BLACK);
 					bolaTemp.setBorder(border);
 					bolaTemp.setOpaque(true);
 					bolaTemp.setBounds(x += 40, y-40, 30, 30);
 					contentPane.add(bolaTemp);
+					numFichasNegras++;
 				} else {
 					for (int j = 0; j < bola_solucion.length; j++) {
-						if(solucionUsuario[i].getRGB() == bola_solucion[j].getRGB()) {
-							JLabel bolaTemp = new JLabel("");
+						if(solucionUsuario[i].getRGB() == bola_solucion[j].getRGB() && solucionUsuario[j].getRGB() != bola_solucion[j].getRGB()) {
+							bolaTemp = new JLabel("");
 							bolaTemp.setForeground(Color.WHITE);
 							bolaTemp.setBackground(Color.WHITE);
 							bolaTemp.setBorder(border);
@@ -248,10 +253,23 @@ public class Mastermind extends JFrame implements ActionListener{
 					}
 				}
 			}
+			if(numFichasNegras == 4) {
+				hasGanado = true;
+				JOptionPane.showMessageDialog(null, "HAS GANADO");
+				botonComprobar.setEnabled(false);
+			} else {
+				if(intentos  <= 0) {
+					JOptionPane.showMessageDialog(null, "PARTIDA PERDIDA");
+					botonComprobar.setEnabled(false);
+				} else if (intentos > 0) {
+					numFichasNegras = 0;
+					intentos--;
+					System.out.println("Intentos: " + intentos);
+				}
+			}
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "Faltan fichas!");
 		}
-		
 	}
 
 	public void crearSolucion() {

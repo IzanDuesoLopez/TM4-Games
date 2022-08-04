@@ -22,12 +22,12 @@ import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
 public class Mastermind extends JFrame implements ActionListener{
-	
+
 	private JPanel contentPane;
 	private int contador = 0;
 	private int y = 11;
 	private JButton botonComprobar;
-	
+
 	// Componentes de la barra del menú
 	private JMenuBar barra_menu = new JMenuBar();
 	private JMenu archivo = new JMenu("Archivo");
@@ -36,7 +36,7 @@ public class Mastermind extends JFrame implements ActionListener{
 	public JMenuItem salir = new JMenuItem("Salir");
 	private JMenuItem como_jugar = new JMenuItem("Cómo jugar");
 	private JMenuItem acerca_de = new JMenuItem("Acerca de");
-	
+
 	// Vector de colores
 	private Color[] coloresArray =  {Color.RED, Color.GREEN, Color.BLUE, Color.BLACK, Color.PINK, Color.ORANGE};
 	private Color[] coloresDisponibles =  { Color.RED, Color.GREEN, Color.BLUE, Color.BLACK, Color.PINK, Color.ORANGE};
@@ -49,13 +49,13 @@ public class Mastermind extends JFrame implements ActionListener{
 	private Color[] bola_solucion = {Color.BLUE, Color.RED, Color.BLACK, Color.GREEN};
 	private int rand;
 	private Border border = BorderFactory.createLineBorder(Color.BLACK, 2);
-	
+
 	private Niveles nivel = new Niveles();
 	private int intentos = nivel.getBoton_intentos();
 	private int nivelDificultad = nivel.getBoton_seleccionado();
 	private int nivel_seleccionado;
 	private int amplitudColoresDisponibles = 209;
-	
+
 	public Mastermind() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 864, 521);
@@ -63,39 +63,39 @@ public class Mastermind extends JFrame implements ActionListener{
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
+
 		JLabel solucionLabel = new JLabel("Solución");
 		solucionLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
 		solucionLabel.setBounds(598, 24, 90, 14);
 		contentPane.add(solucionLabel);
-		
+
 		JLabel solucionLabel2 = new JLabel("Colores disponibles");
 		solucionLabel2.setFont(new Font("Tahoma", Font.BOLD, 14));
 		solucionLabel2.setBounds(598, 140, 200, 25);
 		contentPane.add(solucionLabel2);
-		
+
 		JLabel bordeSolucion = new JLabel("");
 		bordeSolucion.setBounds(572, 11, 209, 95);
 		contentPane.add(bordeSolucion);
 		bordeSolucion.setBorder(border);
-		
+
 		if(nivelDificultad == 5) {
 			amplitudColoresDisponibles += 30;
 		} else if (nivelDificultad == 6) {
 			amplitudColoresDisponibles += 60;
 		}
-		
+
 		JLabel bordeColoresDisponibles = new JLabel("");
 		bordeColoresDisponibles.setBounds(572, 130, amplitudColoresDisponibles, 95);
 		contentPane.add(bordeColoresDisponibles);
 		bordeColoresDisponibles.setBorder(border);
-		
+
 		crearBarraMenu(barra_menu, archivo, ayuda, nuevo_juego, salir, como_jugar, acerca_de);
-		
+
 		funcionalidadBarraMenu();
-		
+
 		crearColores(y,nivel_seleccionado);
-		
+
 		botonComprobar = new JButton("Comprobar");
 		botonComprobar.setBounds(180, y, 100, 23);
 		contentPane.add(botonComprobar);
@@ -111,7 +111,7 @@ public class Mastermind extends JFrame implements ActionListener{
 		ayuda.add(acerca_de);
 		setJMenuBar(barra_menu);
 	}	
-	
+
 	// crear_colores. Asignamos colores aleatorios al array de 4 posiciones.
 	public void crearColores(int y, int nivel) {		
 		crearSolucion();
@@ -124,7 +124,7 @@ public class Mastermind extends JFrame implements ActionListener{
 		 * hay que crear metodo borrar_componentes (diapo 4) 
 		 */
 		System.out.println(nivel);
-		
+
 		bolacoloresUno = new JLabel("");
 		bolacoloresUno.setForeground(Color.WHITE);
 		bolacoloresUno.setBackground(Color.WHITE);
@@ -132,7 +132,7 @@ public class Mastermind extends JFrame implements ActionListener{
 		bolacoloresUno.setOpaque(true);
 		bolacoloresUno.setBounds(10, y, 30, 30);
 		contentPane.add(bolacoloresUno);
-		
+
 		bolacoloresDos = new JLabel("");
 		bolacoloresDos.setForeground(Color.WHITE);
 		bolacoloresDos.setBackground(Color.WHITE);
@@ -140,7 +140,7 @@ public class Mastermind extends JFrame implements ActionListener{
 		bolacoloresDos.setOpaque(true);
 		bolacoloresDos.setBounds(50, y, 30, 30);
 		contentPane.add(bolacoloresDos);
-		
+
 		bolacoloresTres = new JLabel("");
 		bolacoloresTres.setForeground(Color.WHITE);
 		bolacoloresTres.setBackground(Color.WHITE);
@@ -148,7 +148,7 @@ public class Mastermind extends JFrame implements ActionListener{
 		bolacoloresTres.setOpaque(true);
 		bolacoloresTres.setBounds(90, y, 30, 30);
 		contentPane.add(bolacoloresTres);
-		
+
 		bolacoloresCuatro = new JLabel("");
 		bolacoloresCuatro.setForeground(Color.WHITE);
 		bolacoloresCuatro.setBackground(Color.WHITE);
@@ -156,75 +156,136 @@ public class Mastermind extends JFrame implements ActionListener{
 		bolacoloresCuatro.setOpaque(true);
 		bolacoloresCuatro.setBounds(130, y, 30, 30);
 		contentPane.add(bolacoloresCuatro);
-		
+
 		bolacoloresUno.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-            	cambiarColor(bolacoloresUno);
-            	solucionUsuario[0] = bolacoloresUno.getBackground();
-            }
-        });
-		
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (e.getButton()==MouseEvent.BUTTON1){
+					//Se presiono el boton izquierdo
+					cambiarColorI(bolacoloresUno);
+					solucionUsuario[0] = bolacoloresUno.getBackground();
+				}
+				if(e.getButton()==MouseEvent.BUTTON3){
+					//Se presiono el boton derecho
+					cambiarColor(bolacoloresUno);
+					solucionUsuario[0] = bolacoloresUno.getBackground();
+				}
+			}
+		});
+
 		bolacoloresDos.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-            	cambiarColor(bolacoloresDos);
-        		solucionUsuario[1] = bolacoloresDos.getBackground();
-            }
-        });
-		
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (e.getButton()==MouseEvent.BUTTON1){
+					//Se presiono el boton izquierdo
+					cambiarColorI(bolacoloresDos);
+					solucionUsuario[1] = bolacoloresDos.getBackground();
+				}
+				if(e.getButton()==MouseEvent.BUTTON3){
+					//Se presiono el boton derecho
+					cambiarColor(bolacoloresDos);
+					solucionUsuario[1] = bolacoloresDos.getBackground();
+				}
+			}
+		});
+
 		bolacoloresTres.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-            	cambiarColor(bolacoloresTres);
-        		solucionUsuario[2] = bolacoloresTres.getBackground();
-            }
-        });
-		
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (e.getButton()==MouseEvent.BUTTON1){
+					//Se presiono el boton izquierdo
+					cambiarColorI(bolacoloresTres);
+					solucionUsuario[2] = bolacoloresTres.getBackground();
+				}
+				if(e.getButton()==MouseEvent.BUTTON3){
+					//Se presiono el boton derecho
+					cambiarColor(bolacoloresTres);
+					solucionUsuario[2] = bolacoloresTres.getBackground();
+				}
+			}
+		});
+
 		bolacoloresCuatro.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-            	cambiarColor(bolacoloresCuatro);
-            	solucionUsuario[3] = bolacoloresCuatro.getBackground();
-            }
-        });
-		
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (e.getButton()==MouseEvent.BUTTON1){
+					//Se presiono el boton izquierdo
+					cambiarColorI(bolacoloresCuatro);
+					solucionUsuario[3] = bolacoloresCuatro.getBackground();
+				}
+				if(e.getButton()==MouseEvent.BUTTON3){
+					//Se presiono el boton derecho
+					cambiarColor(bolacoloresCuatro);
+					solucionUsuario[3] = bolacoloresCuatro.getBackground();
+				}
+			}
+		});
+
+
 	}
-	
+
 	public void cambiarColor(JLabel bolaColores) {
 		if(nivelDificultad == 4) {
 			if(contador == coloresDisponiblesPrincipiante.length - 1) {
 				bolaColores.setBackground(coloresDisponiblesPrincipiante[contador]);
-	    		contador = 0;
-	    	} else {
-	    		bolaColores.setBackground(coloresDisponiblesPrincipiante[contador]);
-	    		contador++;
-	    	}
+				contador = 0;
+			} else {
+				bolaColores.setBackground(coloresDisponiblesPrincipiante[contador]);
+				contador++;
+			}
 		} else if (nivelDificultad == 5) {
 			if(contador == coloresDisponiblesMedio.length - 1) {
 				bolaColores.setBackground(coloresDisponiblesMedio[contador]);
-	    		contador = 0;
-	    	} else {
-	    		bolaColores.setBackground(coloresDisponiblesMedio[contador]);
-	    		contador++;
-	    	}
+				contador = 0;
+			} else {
+				bolaColores.setBackground(coloresDisponiblesMedio[contador]);
+				contador++;
+			}
 		} else if (nivelDificultad == 6) {
 			if(contador == coloresArray.length - 1) {
 				bolaColores.setBackground(coloresArray[contador]);
-	    		contador = 0;
-	    	} else {
-	    		bolaColores.setBackground(coloresArray[contador]);
-	    		contador++;
-	    	}
+				contador = 0;
+			} else {
+				bolaColores.setBackground(coloresArray[contador]);
+				contador++;
+			}
 		}
 	}
-	
+
+	public void cambiarColorI(JLabel bolaColores) {
+		if(nivelDificultad == 4) {
+			if(contador == 0) {
+				contador = 3;
+				bolaColores.setBackground(coloresDisponiblesPrincipiante[contador]);
+			} else {
+				contador--;
+				bolaColores.setBackground(coloresDisponiblesPrincipiante[contador]);
+			}
+		} else if (nivelDificultad == 5) {
+			if(contador == 0) {
+				contador = 4;
+				bolaColores.setBackground(coloresDisponiblesMedio[contador]);
+			} else {
+				contador--;
+				bolaColores.setBackground(coloresDisponiblesMedio[contador]);
+			}
+		} else if (nivelDificultad == 6) {
+			if(contador == 0) {
+				contador = 5;
+				bolaColores.setBackground(coloresArray[contador]);
+			} else {
+				contador--;
+				bolaColores.setBackground(coloresArray[contador]);
+			}
+		}
+	}
+
 	public void comprobarSolucionUsuario(int y) {
 		int x = 270;
-		
+
 		int numFichasNegras = 0;
 		boolean hasGanado = false;
-		
+
 		try {
 			for (int i = 0; i < solucionUsuario.length; i++) {
 				System.out.println("Color user: " + solucionUsuario[i] + " " + "Color solucion: " + bola_solucion[i]);
@@ -272,41 +333,41 @@ public class Mastermind extends JFrame implements ActionListener{
 	}
 
 	public void crearSolucion() {
-//		for(int i = 0; i < bola_solucion.length; i++) {
-//			rand = (int)(Math.random() * (4 - 0)+0);
-//			bola_solucion[i] = coloresArray[rand];
-//		}
+		//		for(int i = 0; i < bola_solucion.length; i++) {
+		//			rand = (int)(Math.random() * (4 - 0)+0);
+		//			bola_solucion[i] = coloresArray[rand];
+		//		}
 		JLabel bolasolucionUno, bolasolucionDos, bolasolucionTres, bolasolucionCuatro;
 		JLabel colorDisponibleUno, colorDisponibleDos, colorDisponibleTres, colorDisponibleCuatro, colorDisponibleCinco, colorDisponibleSeis;
-        
+
 		colorDisponibleUno = new JLabel("");
 		colorDisponibleUno.setBackground(coloresDisponibles[0]);
 		colorDisponibleUno.setBorder(border);
 		colorDisponibleUno.setOpaque(true);
 		colorDisponibleUno.setBounds(600, 170, 30, 30);
 		contentPane.add(colorDisponibleUno);
-		
+
 		colorDisponibleDos = new JLabel("");
 		colorDisponibleDos.setBackground(coloresDisponibles[1]);
 		colorDisponibleDos.setBorder(border);
 		colorDisponibleDos.setOpaque(true);
 		colorDisponibleDos.setBounds(640, 170, 30, 30);
 		contentPane.add(colorDisponibleDos);
-		
+
 		colorDisponibleTres = new JLabel("");
 		colorDisponibleTres.setBackground(coloresDisponibles[2]);
 		colorDisponibleTres.setBorder(border);
 		colorDisponibleTres.setOpaque(true);
 		colorDisponibleTres.setBounds(680, 170, 30, 30);
 		contentPane.add(colorDisponibleTres);
-		
+
 		colorDisponibleCuatro = new JLabel("");
 		colorDisponibleCuatro.setBackground(coloresDisponibles[3]);
 		colorDisponibleCuatro.setBorder(border);
 		colorDisponibleCuatro.setOpaque(true);
 		colorDisponibleCuatro.setBounds(720, 170, 30, 30);
 		contentPane.add(colorDisponibleCuatro);
-		
+
 		if(nivelDificultad == 5) {
 			colorDisponibleCinco = new JLabel("");
 			colorDisponibleCinco.setBackground(coloresDisponibles[4]);
@@ -321,7 +382,7 @@ public class Mastermind extends JFrame implements ActionListener{
 			colorDisponibleCinco.setOpaque(true);
 			colorDisponibleCinco.setBounds(760, 170, 30, 30);
 			contentPane.add(colorDisponibleCinco);
-			
+
 			colorDisponibleSeis = new JLabel("");
 			colorDisponibleSeis.setBackground(coloresDisponibles[5]);
 			colorDisponibleSeis.setBorder(border);
@@ -335,21 +396,21 @@ public class Mastermind extends JFrame implements ActionListener{
 		bolasolucionUno.setOpaque(true);
 		bolasolucionUno.setBounds(600, 50, 30, 30);
 		contentPane.add(bolasolucionUno);
-		
+
 		bolasolucionDos = new JLabel("");
 		bolasolucionDos.setBackground(bola_solucion[1]);
 		bolasolucionDos.setBorder(border);
 		bolasolucionDos.setOpaque(true);
 		bolasolucionDos.setBounds(640, 50, 30, 30);
 		contentPane.add(bolasolucionDos);
-		
+
 		bolasolucionTres = new JLabel("");
 		bolasolucionTres.setBackground(bola_solucion[2]);
 		bolasolucionTres.setBorder(border);
 		bolasolucionTres.setOpaque(true);
 		bolasolucionTres.setBounds(680, 50, 30, 30);
 		contentPane.add(bolasolucionTres);
-		
+
 		bolasolucionCuatro = new JLabel("");
 		bolasolucionCuatro.setBackground(bola_solucion[3]);
 		bolasolucionCuatro.setBorder(border);
@@ -409,8 +470,8 @@ public class Mastermind extends JFrame implements ActionListener{
 			}
 		});
 	}
-	
-	
+
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		botonComprobar.setBounds(180, y+=40, 100, 23);
@@ -423,11 +484,11 @@ public class Mastermind extends JFrame implements ActionListener{
 	}
 	/* crear_solución. Obtener aleatoriamente colores para la solución. Estos colores los guardamos
 	   en un vector aux. */
-	
+
 	// crear_linea_bola. Creamos un conjunto de 4 PictureBox con una constante con valor 4. A su lado crearemos un boton comprobar.
-	
+
 	// borrar_componentes. Nos permite borrar todos los componentes creados durante el juego cuando pulsamos nuevo Juego.
-	
+
 	// Método ayuda. Nos explica como jugar, acerca de (con información de los alumnos)
-	
+
 }

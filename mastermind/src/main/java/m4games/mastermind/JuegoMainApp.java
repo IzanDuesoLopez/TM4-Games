@@ -17,6 +17,10 @@ import javax.swing.border.LineBorder;
 
 public class JuegoMainApp {
 
+	/**
+	 * Método main en el que creamos la instancia principal de mastermind pasandole por parámetro la dificultad predeterminada
+	 * 
+	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {

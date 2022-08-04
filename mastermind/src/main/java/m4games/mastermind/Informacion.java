@@ -22,7 +22,7 @@ public class Informacion extends JFrame {
 	
 	
 	/**
-	 * Create the frame.
+	 * Método con la información de juego
 	 */
 	public Informacion() {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

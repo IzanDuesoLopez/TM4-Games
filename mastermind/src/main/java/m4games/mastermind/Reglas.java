@@ -16,7 +16,7 @@ public class Reglas extends JFrame {
 	private JPanel contentPane;
 
 	/**
-	 * Create the frame.
+	 * Reglas del juego
 	 */
 	public Reglas() {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

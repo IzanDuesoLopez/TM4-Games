@@ -50,7 +50,7 @@ public class Mastermind extends JFrame implements ActionListener{
 	private int rand;
 	private Border border = BorderFactory.createLineBorder(Color.BLACK, 2);
 	
-	private Niveles nivel = new Niveles();
+	private Niveles nivel = new Niveles(this);
 	private int intentos = nivel.getBoton_intentos();
 	private int nivelDificultad = nivel.getBoton_seleccionado();
 	private int nivel_seleccionado;
@@ -58,7 +58,8 @@ public class Mastermind extends JFrame implements ActionListener{
 	
 	private JLabel labelNumIntentos;
 	
-	public Mastermind() {
+	public Mastermind(int nivel_seleccionado) {
+		this.nivelDificultad = nivel_seleccionado;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 864, 521);
 		contentPane = new JPanel();
@@ -108,7 +109,7 @@ public class Mastermind extends JFrame implements ActionListener{
 		contentPane.add(botonComprobar);
 		botonComprobar.addActionListener(this);
 	}
-
+	
 	public void crearBarraMenu(JMenuBar barra_menu, JMenu archivo, JMenu ayuda, JMenuItem nuevo_juego, JMenuItem salir, JMenuItem como_jugar, JMenuItem acerca_de) {		
 		barra_menu.add(archivo);
 		barra_menu.add(ayuda);

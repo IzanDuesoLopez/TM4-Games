@@ -21,7 +21,7 @@ public class JuegoMainApp {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Mastermind frame = new Mastermind();		
+					Mastermind frame = new Mastermind(4);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();

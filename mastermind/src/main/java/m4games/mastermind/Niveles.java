@@ -17,30 +17,15 @@ import java.awt.event.MouseEvent;
 public class Niveles extends JFrame {
 
 	private JPanel contentPane;
-	private int boton_seleccionado;
-	private int boton_intentos;
+	private int boton_seleccionado = 6; // 4 - 5 - 6
+	private int boton_intentos = 8;
 
 	/**
-	 * Launch the application.
+	 * Constructor de una ventana que permite elegir el nivel de dificultad mediante tres radiobuttons
+	 * @param frameMastermind
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Niveles frame = new Niveles();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
-	public Niveles() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	public Niveles(Mastermind frameMastermind) {
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 266, 267);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -52,6 +37,7 @@ public class Niveles extends JFrame {
 		contentPane.add(rbtnPrincipiante);
 		
 		JRadioButton rbtnMedio = new JRadioButton("Medio");
+		rbtnMedio.setSelected(true);
 		rbtnMedio.setBounds(62, 65, 111, 23);
 		contentPane.add(rbtnMedio);
 		
@@ -65,9 +51,13 @@ public class Niveles extends JFrame {
 		bgroup.add(rbtnAvanzado);
 		
 		JButton btnNewButton = new JButton("Aceptar");
-		btnNewButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
+		/**
+		 * Se añade el actionListener al botón de aceptar para elegir una de las tres dificultades. 
+		 * Se pasan los valores del número de colores disponibles y del número de intentos a la instancia de Mastermind
+		 * para crear una nueva ventana y se cierra la ventana anterior.
+		 */
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
 				if(rbtnPrincipiante.isSelected()) {
 					boton_seleccionado = 4;
 					boton_intentos = 10;
@@ -78,12 +68,22 @@ public class Niveles extends JFrame {
 					boton_seleccionado = 6;
 					boton_intentos = 6;
 				}
+				Mastermind m = new Mastermind(boton_seleccionado, boton_intentos);
+				frameMastermind.setEnabled(false);
+				frameMastermind.setVisible(false);
+				m.setVisible(true);
+				
+				dispose();
 			}
 		});
 		btnNewButton.setBounds(23, 152, 89, 23);
 		contentPane.add(btnNewButton);
 		
 		JButton btnNewButton_1 = new JButton("Cancelar");
+		/**
+		 * Se añade el actionListener al botón de salir del menú,
+		 * se cierra la ventana actual y se sale del programa.
+		 */
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//this.setVisible(false);

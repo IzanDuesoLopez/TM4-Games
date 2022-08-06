@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.EventQueue;
 
 import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
@@ -15,15 +16,18 @@ import javax.swing.JColorChooser;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JRadioButton;
 
 public class OpcionesJuego extends JFrame {
 
 	private JPanel contentPane;
 	private Border border = BorderFactory.createLineBorder(Color.BLACK, 2);
+	private ArrayList<Color> colores_disponibles_personalizados = new ArrayList<Color>();
 	
-	public OpcionesJuego() {
+	public OpcionesJuego(Mastermind frameMastermind) {
 		setTitle("Opciones del juego");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 340);
@@ -35,7 +39,7 @@ public class OpcionesJuego extends JFrame {
 		JLabel bolacoloresUno = new JLabel("");
 		bolacoloresUno.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent e) {
+			public void mouseClicked(MouseEvent e) {				
 				Color color = JColorChooser.showDialog(contentPane, "Elige un color", Color.WHITE);
 				bolacoloresUno.setBackground(color);
 				bolacoloresUno.setOpaque(true);
@@ -45,7 +49,7 @@ public class OpcionesJuego extends JFrame {
 		bolacoloresUno.setBackground(Color.WHITE);
 		bolacoloresUno.setBorder(border);
 		bolacoloresUno.setOpaque(true);
-		bolacoloresUno.setBounds(25, 90, 55, 55);
+		bolacoloresUno.setBounds(25, 130, 55, 55);
 		contentPane.add(bolacoloresUno);
 		
 		JLabel bolacoloresDos = new JLabel("");
@@ -61,7 +65,7 @@ public class OpcionesJuego extends JFrame {
 		bolacoloresDos.setForeground(Color.WHITE);
 		bolacoloresDos.setBorder(border);
 		bolacoloresDos.setBackground(Color.WHITE);
-		bolacoloresDos.setBounds(90, 90, 55, 55);
+		bolacoloresDos.setBounds(90, 130, 55, 55);
 		contentPane.add(bolacoloresDos);
 		
 		JLabel bolacoloresTres = new JLabel("");
@@ -77,7 +81,7 @@ public class OpcionesJuego extends JFrame {
 		bolacoloresTres.setForeground(Color.WHITE);
 		bolacoloresTres.setBorder(border);
 		bolacoloresTres.setBackground(Color.WHITE);
-		bolacoloresTres.setBounds(155, 90, 55, 55);
+		bolacoloresTres.setBounds(155, 130, 55, 55);
 		contentPane.add(bolacoloresTres);
 		
 		JLabel bolacoloresCuatro = new JLabel("");
@@ -93,7 +97,7 @@ public class OpcionesJuego extends JFrame {
 		bolacoloresCuatro.setForeground(Color.WHITE);
 		bolacoloresCuatro.setBorder(border);
 		bolacoloresCuatro.setBackground(Color.WHITE);
-		bolacoloresCuatro.setBounds(220, 90, 55, 55);
+		bolacoloresCuatro.setBounds(220, 130, 55, 55);
 		contentPane.add(bolacoloresCuatro);
 		
 		JLabel bolacoloresCinco = new JLabel("");
@@ -109,7 +113,7 @@ public class OpcionesJuego extends JFrame {
 		bolacoloresCinco.setForeground(Color.WHITE);
 		bolacoloresCinco.setBorder(border);
 		bolacoloresCinco.setBackground(Color.WHITE);
-		bolacoloresCinco.setBounds(285, 90, 55, 55);
+		bolacoloresCinco.setBounds(285, 130, 55, 55);
 		contentPane.add(bolacoloresCinco);
 		
 		JLabel bolacoloresSeis = new JLabel("");
@@ -125,27 +129,58 @@ public class OpcionesJuego extends JFrame {
 		bolacoloresSeis.setForeground(Color.WHITE);
 		bolacoloresSeis.setBorder(border);
 		bolacoloresSeis.setBackground(Color.WHITE);
-		bolacoloresSeis.setBounds(350, 90, 55, 55);
+		bolacoloresSeis.setBounds(350, 130, 55, 55);
 		contentPane.add(bolacoloresSeis);
 		
-		JButton btnNewButton = new JButton("Aceptar");
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				
-				dispose();
-			}
-		});
-		btnNewButton.setBounds(90, 223, 85, 28);
-		contentPane.add(btnNewButton);
+		JRadioButton rdbtnColoresDefault = new JRadioButton("Colores por defecto");
+		rdbtnColoresDefault.setSelected(true);
+		rdbtnColoresDefault.setBounds(25, 52, 198, 21);
+		contentPane.add(rdbtnColoresDefault);
 		
-		JButton btnNewButton_1 = new JButton("Cerrar");
-		btnNewButton_1.addActionListener(new ActionListener() {
+		JRadioButton rdbtnColoresPersonalizados = new JRadioButton("Colores personalizados");
+		rdbtnColoresPersonalizados.setBounds(25, 88, 198, 21);
+		contentPane.add(rdbtnColoresPersonalizados);
+		
+		ButtonGroup grupoBotones = new ButtonGroup();
+		grupoBotones.add(rdbtnColoresDefault);
+		grupoBotones.add(rdbtnColoresPersonalizados);
+		
+		
+		JButton btnAceptar = new JButton("Aceptar");
+		btnAceptar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				colores_disponibles_personalizados.add(bolacoloresUno.getBackground());
+				colores_disponibles_personalizados.add(bolacoloresDos.getBackground());
+				colores_disponibles_personalizados.add(bolacoloresTres.getBackground());
+				colores_disponibles_personalizados.add(bolacoloresCuatro.getBackground());
+				colores_disponibles_personalizados.add(bolacoloresCinco.getBackground());
+				colores_disponibles_personalizados.add(bolacoloresSeis.getBackground());
+				
+				if(rdbtnColoresPersonalizados.isSelected()) {
+					frameMastermind.setColoresDisponiblesPersonalizados(colores_disponibles_personalizados);
+					frameMastermind.setColoresDisponibles(colores_disponibles_personalizados);
+				} else if(rdbtnColoresDefault.isSelected()) {
+					frameMastermind.setColoresDisponiblesPersonalizados(frameMastermind.getColoresDefault());
+					frameMastermind.setColoresDisponibles(frameMastermind.getColoresDefault());
+				}
+				
+				dispose();
+			}
+		});
+		btnAceptar.setBounds(90, 223, 85, 28);
+		contentPane.add(btnAceptar);
+		
+		JButton btnCerrar = new JButton("Cerrar");
+		btnCerrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
 			}
 		});
-		btnNewButton_1.setBounds(255, 223, 85, 28);
-		contentPane.add(btnNewButton_1);
+		btnCerrar.setBounds(255, 223, 85, 28);
+		contentPane.add(btnCerrar);
+	}
+
+	public ArrayList<Color> getColoresDisponiblesPersonalizados() {
+		return colores_disponibles_personalizados;
 	}
 }

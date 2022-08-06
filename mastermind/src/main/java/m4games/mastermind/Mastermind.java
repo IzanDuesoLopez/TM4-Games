@@ -33,6 +33,7 @@ public class Mastermind extends JFrame implements ActionListener{
 	private JMenu archivo = new JMenu("Archivo");
 	private JMenu ayuda = new JMenu("Ayuda");
 	private JMenuItem nuevo_juego = new JMenuItem("Nuevo juego");
+	private JMenuItem opciones = new JMenuItem("Opciones");
 	public JMenuItem salir = new JMenuItem("Salir");
 	private JMenuItem como_jugar = new JMenuItem("Cómo jugar");
 	private JMenuItem acerca_de = new JMenuItem("Acerca de");
@@ -104,7 +105,7 @@ public class Mastermind extends JFrame implements ActionListener{
 		contentPane.add(bordeColoresDisponibles);
 		bordeColoresDisponibles.setBorder(border);
 		
-		crearBarraMenu(barra_menu, archivo, ayuda, nuevo_juego, salir, como_jugar, acerca_de);
+		crearBarraMenu(barra_menu, archivo, ayuda, nuevo_juego, opciones, salir, como_jugar, acerca_de);
 		
 		funcionalidadBarraMenu();
 		
@@ -126,10 +127,11 @@ public class Mastermind extends JFrame implements ActionListener{
 	 * @param como_jugar
 	 * @param acerca_de
 	 */
-	public void crearBarraMenu(JMenuBar barra_menu, JMenu archivo, JMenu ayuda, JMenuItem nuevo_juego, JMenuItem salir, JMenuItem como_jugar, JMenuItem acerca_de) {		
+	public void crearBarraMenu(JMenuBar barra_menu, JMenu archivo, JMenu ayuda, JMenuItem nuevo_juego, JMenuItem opciones, JMenuItem salir, JMenuItem como_jugar, JMenuItem acerca_de) {		
 		barra_menu.add(archivo);
 		barra_menu.add(ayuda);
 		archivo.add(nuevo_juego);
+		archivo.add(opciones);
 		archivo.add(salir);
 		ayuda.add(como_jugar);
 		ayuda.add(acerca_de);
@@ -470,6 +472,21 @@ public class Mastermind extends JFrame implements ActionListener{
 			}
 		});
 
+		opciones.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				EventQueue.invokeLater(new Runnable() {
+					public void run() {
+						try {
+							OpcionesJuego opciones_juego = new OpcionesJuego();
+							opciones_juego.setVisible(true);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+				});
+			}
+		});
+		
 		salir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();

@@ -50,13 +50,13 @@ public class Niveles extends JFrame {
 		bgroup.add(rbtnMedio);
 		bgroup.add(rbtnAvanzado);
 		
-		JButton btnNewButton = new JButton("Aceptar");
+		JButton btnAceptar = new JButton("Aceptar");
 		/**
 		 * Se añade el actionListener al botón de aceptar para elegir una de las tres dificultades. 
 		 * Se pasan los valores del número de colores disponibles y del número de intentos a la instancia de Mastermind
 		 * para crear una nueva ventana y se cierra la ventana anterior.
 		 */
-		btnNewButton.addActionListener(new ActionListener() {
+		btnAceptar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(rbtnPrincipiante.isSelected()) {
 					boton_seleccionado = 4;
@@ -68,7 +68,7 @@ public class Niveles extends JFrame {
 					boton_seleccionado = 6;
 					boton_intentos = 6;
 				}
-				Mastermind m = new Mastermind(boton_seleccionado, boton_intentos);
+				Mastermind m = new Mastermind(boton_seleccionado, boton_intentos, frameMastermind.getColoresDisponibles());
 				frameMastermind.setEnabled(false);
 				frameMastermind.setVisible(false);
 				m.setVisible(true);
@@ -76,23 +76,23 @@ public class Niveles extends JFrame {
 				dispose();
 			}
 		});
-		btnNewButton.setBounds(23, 152, 89, 23);
-		contentPane.add(btnNewButton);
+		btnAceptar.setBounds(23, 152, 89, 23);
+		contentPane.add(btnAceptar);
 		
-		JButton btnNewButton_1 = new JButton("Cancelar");
+		JButton btnCancelar = new JButton("Cancelar");
 		/**
 		 * Se añade el actionListener al botón de salir del menú,
 		 * se cierra la ventana actual y se sale del programa.
 		 */
-		btnNewButton_1.addActionListener(new ActionListener() {
+		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//this.setVisible(false);
 				//System.exit(0);
 				dispose();
 			}
 		});
-		btnNewButton_1.setBounds(144, 152, 89, 23);
-		contentPane.add(btnNewButton_1);
+		btnCancelar.setBounds(144, 152, 89, 23);
+		contentPane.add(btnCancelar);
 	}
 
 	public int getBoton_seleccionado() {

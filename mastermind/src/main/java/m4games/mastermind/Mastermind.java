@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -39,20 +40,23 @@ public class Mastermind extends JFrame implements ActionListener{
 	private JMenuItem acerca_de = new JMenuItem("Acerca de");
 	
 	// Vector de colores
-	private Color[] coloresArray =  {Color.RED, Color.GREEN, Color.BLUE, Color.BLACK, Color.PINK, Color.ORANGE};
-	private Color[] coloresDisponibles =  { Color.RED, Color.GREEN, Color.BLUE, Color.BLACK, Color.PINK, Color.ORANGE};
-	private Color[] coloresDisponiblesPrincipiante =  { Color.RED, Color.GREEN, Color.BLUE, Color.BLACK};
-	private Color[] coloresDisponiblesMedio =  { Color.RED, Color.GREEN, Color.BLUE, Color.BLACK, Color.PINK};
+	private ArrayList<Color> coloresDisponibles;
+	private ArrayList<Color> coloresDefault =  new ArrayList<>(Arrays.asList(Color.RED, Color.GREEN, Color.BLUE, Color.BLACK, Color.PINK, Color.ORANGE));
+	private Color[] coloresDisponiblesPrincipiante =  new Color[4];
+	private Color[] coloresDisponiblesMedio =  new Color[5];
+	private Color[] coloresDisponiblesAvanzado = new Color[6];
+	private ArrayList<Color> coloresDisponiblesPersonalizados = new ArrayList<Color>();
 	private ArrayList<Color> colores = new ArrayList<Color>();
 	private JLabel bolacoloresUno, bolacoloresDos, bolacoloresTres, bolacoloresCuatro, bolaTemp;
 	private JLabel bolaresulUno, bolaresulDos, bolaresulTres, bolaresulCuatro;
 	private Color[] solucionUsuario = new Color[4];
-	private Color[] bola_solucion = {Color.BLUE, Color.RED, Color.BLACK, Color.GREEN};
+	private Color[] bola_solucion = new Color[4];
 	private int rand;
 	private Border border = BorderFactory.createLineBorder(Color.BLACK, 2);
 	
 	//Componentes de niveles
 	private Niveles nivel = new Niveles(this);
+	private OpcionesJuego opciones_juego = new OpcionesJuego(this);
 	private int intentos = nivel.getBoton_intentos();
 	private int nivelDificultad = nivel.getBoton_seleccionado();
 	private int nivel_seleccionado;
@@ -60,13 +64,30 @@ public class Mastermind extends JFrame implements ActionListener{
 	
 	private JLabel labelNumIntentos;
 	
+	//Componentes de opciones de juego
+	private boolean opcionColoresDefecto = true;
+	private boolean opcionColoresPersonalizados = false;
+	
 	/**
 	 * Constructor principal de Mastermind
 	 * @param nivel_seleccionado
 	 */
-	public Mastermind(int nivel_seleccionado, int intentos) {
+	public Mastermind(int nivel_seleccionado, int intentos, ArrayList<Color> coloresDisponibles) {
+		this.coloresDisponibles = new ArrayList<Color>(coloresDisponibles);
 		this.nivelDificultad = nivel_seleccionado;
 		this.intentos = intentos;
+		this.coloresDisponibles = coloresDisponibles;
+		for(int i = 0; i < coloresDisponiblesPrincipiante.length; i++) {
+			coloresDisponiblesPrincipiante[i] = coloresDisponibles.get(i);
+		}
+		for(int i = 0; i < coloresDisponiblesMedio.length; i++) {
+			coloresDisponiblesMedio[i] = coloresDisponibles.get(i);
+		}
+		for(int i = 0; i < coloresDisponiblesAvanzado.length; i++) {
+			coloresDisponiblesAvanzado[i] = coloresDisponibles.get(i);
+		}
+		
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 864, 521);
 		contentPane = new JPanel();
@@ -109,13 +130,16 @@ public class Mastermind extends JFrame implements ActionListener{
 		
 		funcionalidadBarraMenu();
 		
-		crearColores(y,nivel_seleccionado); // Llamamos al método que añade los componentes de label a la ejecución
+		crearSolucion();
+		
+		crearColores(y,nivel_seleccionado, coloresDisponibles); // Llamamos al método que añade los componentes de label a la ejecución
 		
 		botonComprobar = new JButton("Comprobar");
 		botonComprobar.setBounds(180, y, 100, 23);
 		contentPane.add(botonComprobar);
 		botonComprobar.addActionListener(this);
 	}
+	
 	
 	/**
 	 * Añadimos al menú sus diferentes opciones
@@ -144,8 +168,8 @@ public class Mastermind extends JFrame implements ActionListener{
 	 * @param y
 	 * @param nivel
 	 */
-	public void crearColores(int y, int nivel) {		
-		crearSolucion();
+	public void crearColores(int y, int nivel, ArrayList<Color> coloresDisponibles) {		
+		mostrarSolucion(coloresDisponibles);
 		System.out.println(nivel);
 		
 		bolacoloresUno = new JLabel("");
@@ -268,11 +292,11 @@ public class Mastermind extends JFrame implements ActionListener{
 	    		contador++;
 	    	}
 		} else if (nivelDificultad == 6) {
-			if(contador == coloresArray.length - 1) {
-				bolaColores.setBackground(coloresArray[contador]);
+			if(contador == coloresDisponiblesAvanzado.length - 1) {
+				bolaColores.setBackground(coloresDisponiblesAvanzado[contador]);
 	    		contador = 0;
 	    	} else {
-	    		bolaColores.setBackground(coloresArray[contador]);
+	    		bolaColores.setBackground(coloresDisponiblesAvanzado[contador]);
 	    		contador++;
 	    	}
 		}
@@ -302,10 +326,10 @@ public class Mastermind extends JFrame implements ActionListener{
 		} else if (nivelDificultad == 6) {
 			if(contador == 0) {
 				contador = 5;
-				bolaColores.setBackground(coloresArray[contador]);
+				bolaColores.setBackground(coloresDisponiblesAvanzado[contador]);
 			} else {
 				contador--;
-				bolaColores.setBackground(coloresArray[contador]);
+				bolaColores.setBackground(coloresDisponiblesAvanzado[contador]);
 			}
 		}
 	}
@@ -371,32 +395,72 @@ public class Mastermind extends JFrame implements ActionListener{
 	 * Creamos una solución de colores
 	 */
 	public void crearSolucion() {
+		//System.out.println(nivelDificultad);
+		//int colorRandom = (int)((Math.random() * nivelDificultad));
+		//System.out.println(colorRandom);
+		
+		int colorRandom;
+		
+		ArrayList<Color> arrayColores = new ArrayList<Color>(); 
+		
+		switch(nivelDificultad) {
+		case 4:
+			for(int i = 0; i < coloresDisponiblesPrincipiante.length; i++) {
+				arrayColores.add(coloresDisponiblesPrincipiante[i]);
+			}
+			break;
+		case 5:
+			for(int i = 0; i < coloresDisponiblesMedio.length; i++) {
+				arrayColores.add(coloresDisponiblesMedio[i]);
+			}
+			break;
+		case 6:
+			for(int i = 0; i < coloresDisponiblesAvanzado.length; i++) {
+				arrayColores.add(coloresDisponiblesAvanzado[i]);
+			}
+			break;
+		default:
+			System.out.println("No hay un nivel de dificultad seleccionado.");
+			break;
+		}
+		
+		
+		for(int i = 0; i < bola_solucion.length; i++) {
+			colorRandom = (int)((Math.random() * nivelDificultad));
+			bola_solucion[i] = arrayColores.get(colorRandom);
+		}
+	}
+	
+	/**
+	 * Mostramos una solución de colores y los colores disponibles
+	 */
+	public void mostrarSolucion(ArrayList<Color> coloresDisponibles) {
 		JLabel bolasolucionUno, bolasolucionDos, bolasolucionTres, bolasolucionCuatro;
 		JLabel colorDisponibleUno, colorDisponibleDos, colorDisponibleTres, colorDisponibleCuatro, colorDisponibleCinco, colorDisponibleSeis;
         
 		colorDisponibleUno = new JLabel("");
-		colorDisponibleUno.setBackground(coloresDisponibles[0]);
+		colorDisponibleUno.setBackground(coloresDisponibles.get(0));
 		colorDisponibleUno.setBorder(border);
 		colorDisponibleUno.setOpaque(true);
 		colorDisponibleUno.setBounds(600, 170, 30, 30);
 		contentPane.add(colorDisponibleUno);
 		
 		colorDisponibleDos = new JLabel("");
-		colorDisponibleDos.setBackground(coloresDisponibles[1]);
+		colorDisponibleDos.setBackground(coloresDisponibles.get(1));
 		colorDisponibleDos.setBorder(border);
 		colorDisponibleDos.setOpaque(true);
 		colorDisponibleDos.setBounds(640, 170, 30, 30);
 		contentPane.add(colorDisponibleDos);
 		
 		colorDisponibleTres = new JLabel("");
-		colorDisponibleTres.setBackground(coloresDisponibles[2]);
+		colorDisponibleTres.setBackground(coloresDisponibles.get(2));
 		colorDisponibleTres.setBorder(border);
 		colorDisponibleTres.setOpaque(true);
 		colorDisponibleTres.setBounds(680, 170, 30, 30);
 		contentPane.add(colorDisponibleTres);
 		
 		colorDisponibleCuatro = new JLabel("");
-		colorDisponibleCuatro.setBackground(coloresDisponibles[3]);
+		colorDisponibleCuatro.setBackground(coloresDisponibles.get(3));
 		colorDisponibleCuatro.setBorder(border);
 		colorDisponibleCuatro.setOpaque(true);
 		colorDisponibleCuatro.setBounds(720, 170, 30, 30);
@@ -404,26 +468,28 @@ public class Mastermind extends JFrame implements ActionListener{
 		
 		if(nivelDificultad == 5) {
 			colorDisponibleCinco = new JLabel("");
-			colorDisponibleCinco.setBackground(coloresDisponibles[4]);
+			colorDisponibleCinco.setBackground(coloresDisponibles.get(4));
 			colorDisponibleCinco.setBorder(border);
 			colorDisponibleCinco.setOpaque(true);
 			colorDisponibleCinco.setBounds(760, 170, 30, 30);
 			contentPane.add(colorDisponibleCinco);
 		} else if (nivelDificultad == 6) {
 			colorDisponibleCinco = new JLabel("");
-			colorDisponibleCinco.setBackground(coloresDisponibles[4]);
+			colorDisponibleCinco.setBackground(coloresDisponibles.get(4));
 			colorDisponibleCinco.setBorder(border);
 			colorDisponibleCinco.setOpaque(true);
 			colorDisponibleCinco.setBounds(760, 170, 30, 30);
 			contentPane.add(colorDisponibleCinco);
 			
 			colorDisponibleSeis = new JLabel("");
-			colorDisponibleSeis.setBackground(coloresDisponibles[5]);
+			colorDisponibleSeis.setBackground(coloresDisponibles.get(5));
 			colorDisponibleSeis.setBorder(border);
 			colorDisponibleSeis.setOpaque(true);
 			colorDisponibleSeis.setBounds(800, 170, 30, 30);
 			contentPane.add(colorDisponibleSeis);
 		}
+		
+		
 		bolasolucionUno = new JLabel("");
 		bolasolucionUno.setBackground(bola_solucion[0]);
 		bolasolucionUno.setBorder(border);
@@ -477,13 +543,14 @@ public class Mastermind extends JFrame implements ActionListener{
 				EventQueue.invokeLater(new Runnable() {
 					public void run() {
 						try {
-							OpcionesJuego opciones_juego = new OpcionesJuego();
 							opciones_juego.setVisible(true);
 						} catch (Exception e) {
 							e.printStackTrace();
-						}
+						} 
 					}
 				});
+				
+				
 			}
 		});
 		
@@ -524,18 +591,63 @@ public class Mastermind extends JFrame implements ActionListener{
 		});
 	}
 	
-	
 	/**
 	 * Cuando presionamos el botón comprobar, comprobamos la solución del usuario
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		botonComprobar.setBounds(180, y+=40, 100, 23);
-		crearColores(y,nivel_seleccionado);
+		crearColores(y,nivel_seleccionado, coloresDisponibles);
 		contentPane.revalidate();
 		contentPane.repaint();
 		comprobarSolucionUsuario(y);
 		contentPane.revalidate();
 		contentPane.repaint();
+	}
+
+	public ArrayList<Color> getColoresDefault() {
+		return coloresDefault;
+	}
+
+
+	public void setColoresDefault(ArrayList<Color> coloresDefault) {
+		this.coloresDefault = coloresDefault;
+	}
+
+
+	public ArrayList<Color> getColoresDisponiblesPersonalizados() {
+		return coloresDisponiblesPersonalizados;
+	}
+
+	public void setColoresDisponiblesPersonalizados(ArrayList<Color> coloresDisponiblesPersonalizados) {
+		this.coloresDisponiblesPersonalizados = coloresDisponiblesPersonalizados;
+	}
+
+	public ArrayList<Color> getColoresDisponibles() {
+		return coloresDisponibles;
+	}
+
+	public void setColoresDisponibles(ArrayList<Color> coloresDisponibles) {
+		this.coloresDisponibles = coloresDisponibles;
+	}
+
+
+	public boolean isOpcionColoresDefecto() {
+		return opcionColoresDefecto;
+	}
+
+
+	public void setOpcionColoresDefecto(boolean opcionColoresDefecto) {
+		this.opcionColoresDefecto = opcionColoresDefecto;
+	}
+
+
+	public boolean isOpcionColoresPersonalizados() {
+		return opcionColoresPersonalizados;
+	}
+
+
+	public void setOpcionColoresPersonalizados(boolean opcionColoresPersonalizados) {
+		this.opcionColoresPersonalizados = opcionColoresPersonalizados;
 	}
 }
